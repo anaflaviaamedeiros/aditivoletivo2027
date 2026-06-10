@@ -1,294 +1,409 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Definição de Kits Escolares</title>
-    <style>
-        /* ================= ESTILOS VISUAIS ================= */
-        :root {
-            --cor-principal: #50b0a7;
-            --cor-secundaria: #f38932;
-            --cor-fundo: #f4efe8;
-            --cor-texto: #333333;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: var(--cor-fundo);
-            color: var(--cor-texto);
-            margin: 0;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        h1, h2, h3 { color: var(--cor-principal); }
-        h1 { text-align: center; border-bottom: 2px solid var(--cor-principal); padding-bottom: 10px; }
-        
-        fieldset {
-            border: 2px solid var(--cor-principal);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 25px;
-            background-color: #faf9f7;
-        }
-        
-        legend {
-            background-color: var(--cor-principal);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; }
-        
-        input[type="text"], input[type="email"], input[type="number"], input[type="date"], select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        .checkbox-group label, .radio-group label {
-            display: inline-block;
-            font-weight: normal;
-            margin-right: 15px;
-        }
-
-        .titulos-container {
-            display: none;
-            background-color: white;
-            padding: 15px;
-            border: 1px dashed var(--cor-secundaria);
-            margin-top: 10px;
-        }
-
-        .aviso { color: var(--cor-secundaria); font-weight: bold; font-size: 0.9em; margin-bottom: 10px; }
-        
-        .hidden { display: none; }
-        .disabled-section { opacity: 0.5; pointer-events: none; }
-
-        button {
-            background-color: var(--cor-principal);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: bold;
-        }
-        
-        button:hover { background-color: #3d8b83; }
-        
-        #loadingMsg { text-align: center; color: var(--cor-secundaria); font-weight: bold; display: none; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Definição de Kits Escolares</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .transition-all { transition: all 0.3s ease; }
+    .step-content { display: none; }
+    .step-content.active { display: block; animation: fadeIn 0.4s ease; }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #50b0a7 !important;
+      box-shadow: 0 0 0 3px rgba(80, 176, 167, 0.15);
+    }
+    .disabled-section { opacity: 0.4; pointer-events: none; filter: grayscale(100%); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Personalização do scrollbar para ficar elegante */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #50b0a7; }
+  </style>
 </head>
-<body>
+<body class="bg-[#f4efe8] font-sans text-slate-800 min-h-screen flex flex-col">
 
-<div class="container">
-    <h1>Sistema de Definição de Kits Escolares</h1>
+  <header class="bg-white border-b-4 border-[#50b0a7] shadow-sm sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto px-4 h-20 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-[#50b0a7]/10 flex items-center justify-center text-[#50b0a7]">
+          <i data-lucide="book-open" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <span class="block font-black text-sm uppercase tracking-widest text-slate-400">Editora Cristã Evangélica</span>
+          <span class="block font-black text-lg text-slate-800 tracking-tight">Definição de Kits</span>
+        </div>
+      </div>
+      <div class="text-right hidden sm:block">
+        <span class="text-xs text-slate-400 font-medium">Planejamento do Ano Letivo 2027</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-8">
+    
+    <div class="bg-gradient-to-r from-slate-800 to-slate-900 text-white rounded-2xl p-6 mb-8 shadow-md relative overflow-hidden">
+      <div class="relative z-10 max-w-2xl">
+        <span class="bg-[#f38932] text-white text-[10px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider mb-3 inline-block">Preenchimento Obrigatório</span>
+        <h1 class="text-xl md:text-2xl font-black tracking-tight mb-2">Formulário de Gestão e Logística</h1>
+        <p class="text-sm text-slate-300 leading-relaxed">
+          Preencha os dados necessários para que possamos entender todos os cenários de gestão, logística e kits escolhidos para atender a sua escola da melhor forma.
+        </p>
+      </div>
+      <div class="absolute right-0 bottom-0 top-0 w-1/3 bg-opacity-10 bg-white hidden md:flex items-center justify-center opacity-10">
+        <i data-lucide="file-check-2" class="w-40 h-40 transform translate-x-10 translate-y-10 text-white"></i>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl p-4 mb-8 shadow-sm border border-slate-100 overflow-x-auto">
+      <div class="flex justify-between items-center min-w-[800px] px-4" id="stepsTracker">
+        <div class="flex items-center gap-2 step-indicator" data-step="1">
+          <div class="step-circle w-8 h-8 rounded-full border-2 border-current flex items-center justify-center font-bold text-sm bg-white transition-all">1</div>
+          <span class="text-xs font-bold uppercase tracking-wider">Escola</span>
+        </div>
+        <div class="flex-grow h-0.5 bg-slate-200 mx-2"></div>
+        <div class="flex items-center gap-2 step-indicator text-slate-400" data-step="2">
+          <div class="step-circle w-8 h-8 rounded-full border-2 border-current flex items-center justify-center font-bold text-sm bg-white transition-all">2</div>
+          <span class="text-xs font-bold uppercase tracking-wider">Contatos</span>
+        </div>
+        <div class="flex-grow h-0.5 bg-slate-200 mx-2"></div>
+        <div class="flex items-center gap-2 step-indicator text-slate-400" data-step="3">
+          <div class="step-circle w-8 h-8 rounded-full border-2 border-current flex items-center justify-center font-bold text-sm bg-white transition-all">3</div>
+          <span class="text-xs font-bold uppercase tracking-wider">Coord</span>
+        </div>
+        <div class="flex-grow h-0.5 bg-slate-200 mx-2"></div>
+        <div class="flex items-center gap-2 step-indicator text-slate-400" data-step="4">
+          <div class="step-circle w-8 h-8 rounded-full border-2 border-current flex items-center justify-center font-bold text-sm bg-white transition-all">4</div>
+          <span class="text-xs font-bold uppercase tracking-wider">Segmentos</span>
+        </div>
+        <div class="flex-grow h-0.5 bg-slate-200 mx-2" id="line-5"></div>
+        <div class="flex items-center gap-2 step-indicator text-slate-400 transition-all" data-step="5" id="ind-5">
+          <div class="step-circle w-8 h-8 rounded-full border-2 border-current flex items-center justify-center font-bold text-sm bg-white transition-all">5</div>
+          <span class="text-xs font-bold uppercase tracking-wider">Infantil</span>
+        </div>
+        <div class="flex-grow h-0.5 bg-slate-200 mx-2" id="line-6"></div>
+        <div class="flex items-center gap-2 step-indicator text-slate-400 transition-all" data-step="6" id="ind-6">
+          <div class="step-circle w-8 h-8 rounded-full border-2 border-current flex items-center justify-center font-bold text-sm bg-white transition-all">6</div>
+          <span class="text-xs font-bold uppercase tracking-wider">EF I</span>
+        </div>
+        <div class="flex-grow h-0.5 bg-slate-200 mx-2" id="line-7"></div>
+        <div class="flex items-center gap-2 step-indicator text-slate-400 transition-all" data-step="7" id="ind-7">
+          <div class="step-circle w-8 h-8 rounded-full border-2 border-current flex items-center justify-center font-bold text-sm bg-white transition-all">7</div>
+          <span class="text-xs font-bold uppercase tracking-wider">EF II</span>
+        </div>
+        <div class="flex-grow h-0.5 bg-slate-200 mx-2"></div>
+        <div class="flex items-center gap-2 step-indicator text-slate-400" data-step="8">
+          <div class="step-circle w-8 h-8 rounded-full border-2 border-current flex items-center justify-center font-bold text-sm bg-white transition-all">8</div>
+          <span class="text-xs font-bold uppercase tracking-wider">Fim</span>
+        </div>
+      </div>
+    </div>
 
     <form id="kitsForm">
-        <fieldset>
-            <legend>Identificação e Operação Logística</legend>
-            <div class="form-group">
-                <label>Nome da Escola*</label>
-                <input type="text" id="nomeEscola" required>
-            </div>
-            <div class="form-group">
-                <label>CNPJ* (Formato: XX.XXX.XXX/XXXX-XX)</label>
-                <input type="text" id="cnpj" maxlength="18" oninput="mascaraCNPJ(this)" required>
-            </div>
-            <div class="form-group">
-                <label>Número do INEP</label>
-                <input type="text" id="inep">
-            </div>
-            <div class="form-group">
-                <label>Melhor email da escola*</label>
-                <input type="email" id="emailEscola" required>
-            </div>
 
-            <div class="form-group">
-                <label>Em qual destas opções sua escola se encaixa?*</label>
-                <select id="associacao" required>
-                    <option value="">Selecione...</option>
-                    <option value="Associada a AECEP">Associada a AECEP - enviar comprovante</option>
-                    <option value="Processo de Associacao com a AECEP">Processo de Associacao com a AECEP - enviar comprovante</option>
-                    <option value="Associada a AECEP em Missoes">Associada a AECEP em Missoes - enviar comprovante</option>
-                    <option value="Associada a ACSI">Associada a ACSI - enviar comprovante</option>
-                    <option value="Processo de Associacao com a ACSI">Processo de Associacao com a ACSI - enviar comprovante</option>
-                    <option value="Não Associada">Não Associada</option>
-                </select>
+      <div class="step-content" data-step="1">
+        <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 space-y-6">
+          <div class="border-b border-slate-100 pb-4">
+            <h2 class="text-lg font-black text-slate-800 flex items-center gap-2"><i data-lucide="school" class="text-[#50b0a7]"></i> Identificação e Operação Logística</h2>
+            <p class="text-xs text-slate-400 mt-1">Insira as informações de cadastro e as datas de operação da instituição.</p>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">Nome da Escola*</label>
+              <input type="text" id="nomeEscola" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm transition-all">
             </div>
+            <div>
+              <label class="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">CNPJ* (XX.XXX.XXX/XXXX-XX)</label>
+              <input type="text" id="cnpj" maxlength="18" oninput="mascaraCNPJ(this)" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm transition-all">
+            </div>
+            <div>
+              <label class="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">Número do INEP</label>
+              <input type="text" id="inep" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm transition-all">
+            </div>
+            <div>
+              <label class="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">Melhor email da escola*</label>
+              <input type="email" id="emailEscola" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm transition-all">
+            </div>
+          </div>
 
-            <div class="form-group">
-                <label>Forma de comercialização para o próximo ano:*</label>
-                <select id="comercializacao" required>
-                    <option value="">Selecione...</option>
-                    <option value="Escola para revenda - Semestral">Compra direta da Escola com a Editora para revenda - entrega semestral</option>
-                    <option value="Escola para revenda - Bimestral">Compra direta da Escola com a Editora para revenda - entrega bimestral</option>
-                    <option value="Pais na Loja Virtual">Compra direta dos Pais na Loja Virtual da Editora</option>
-                </select>
+          <div class="grid grid-cols-1 gap-5">
+            <div>
+              <label class="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">Em qual destas opções sua escola se encaixa?*</label>
+              <select id="associacao" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm transition-all">
+                  <option value="">Selecione...</option>
+                  <option value="Associada a AECEP">Associada a AECEP - enviar comprovante</option>
+                  <option value="Processo de Associacao com a AECEP">Processo de Associacao com a AECEP - enviar comprovante</option>
+                  <option value="Associada a AECEP em Missoes">Associada a AECEP em Missoes - enviar comprovante</option>
+                  <option value="Associada a ACSI">Associada a ACSI - enviar comprovante</option>
+                  <option value="Processo de Associacao com a ACSI">Processo de Associacao com a ACSI - enviar comprovante</option>
+                  <option value="Não Associada">Não Associada</option>
+              </select>
             </div>
+            <div>
+              <label class="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">Forma de comercialização para o próximo ano letivo:*</label>
+              <select id="comercializacao" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm transition-all">
+                  <option value="">Selecione...</option>
+                  <option value="Escola para revenda - Semestral">Compra direta da Escola com a Editora para revenda - entrega semestral</option>
+                  <option value="Escola para revenda - Bimestral">Compra direta da Escola com a Editora para revenda - entrega bimestral</option>
+                  <option value="Pais na Loja Virtual">Compra direta dos Pais na Loja Virtual da Editora</option>
+              </select>
+            </div>
+          </div>
 
-            <div class="form-group">
-                <label>Valor médio da mensalidade na Educação Infantil (R$):</label>
-                <input type="number" id="mensalidadeEI" step="0.01">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div>
+              <label class="block text-[11px] font-black text-slate-500 uppercase tracking-wider mb-2">Mensalidade Ed. Infantil (R$)</label>
+              <input type="number" id="mensalidadeEI" step="0.01" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm transition-all">
             </div>
-            <div class="form-group">
-                <label>Valor médio da mensalidade nos Anos Iniciais (R$):</label>
-                <input type="number" id="mensalidadeF1" step="0.01">
+            <div>
+              <label class="block text-[11px] font-black text-slate-500 uppercase tracking-wider mb-2">Mensalidade Anos Iniciais (R$)</label>
+              <input type="number" id="mensalidadeF1" step="0.01" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm transition-all">
             </div>
-            <div class="form-group">
-                <label>Valor médio da mensalidade nos Anos Finais (R$):</label>
-                <input type="number" id="mensalidadeF2" step="0.01">
+            <div>
+              <label class="block text-[11px] font-black text-slate-500 uppercase tracking-wider mb-2">Mensalidade Anos Finais (R$)</label>
+              <input type="number" id="mensalidadeF2" step="0.01" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm transition-all">
             </div>
+          </div>
 
-            <div class="form-group">
-                <label>Website da Escola*</label>
-                <input type="text" id="website" required>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">Website da Escola*</label>
+              <input type="text" id="website" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm transition-all">
             </div>
-            <div class="form-group">
-                <label>Redes Sociais da Escola*</label>
-                <input type="text" id="redesSociais" required>
+            <div>
+              <label class="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">Redes Sociais da Escola*</label>
+              <input type="text" id="redesSociais" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm transition-all">
             </div>
-            <div class="form-group">
-                <label>LOGOMARCA DA ESCOLA (Link aberto do DRIVE)*</label>
-                <input type="text" id="linkLogomarca" required>
+            <div class="md:col-span-2">
+              <label class="block text-xs font-black text-[#f38932] uppercase tracking-wider mb-2">Link da Logomarca (Drive Aberto)*</label>
+              <input type="text" id="linkLogomarca" required class="w-full bg-slate-50 border border-[#f38932]/50 rounded-xl px-4 py-3 text-sm transition-all">
             </div>
+          </div>
 
-            <h3>Cronograma e Logística</h3>
-            <div class="form-group">
-                <label>Data de início de uso no 1º semestre*</label>
-                <input type="date" id="dataInicio1S" required>
+          <div class="bg-slate-50 rounded-xl p-5 space-y-4 border border-slate-200">
+            <h3 class="text-xs font-black uppercase text-slate-600 tracking-wider flex items-center gap-2"><i data-lucide="calendar" class="w-4 h-4 text-[#f38932]"></i> Cronograma e Logística</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-[11px] font-bold text-slate-500 mb-1">Início do uso do material no 1º Semestre*</label>
+                <input type="date" id="dataInicio1S" required class="w-full bg-white border border-slate-200 rounded-lg p-2.5 text-sm">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-500 mb-1">Início do uso do material no 2º Semestre*</label>
+                <input type="date" id="dataInicio2S" required class="w-full bg-white border border-slate-200 rounded-lg p-2.5 text-sm">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-500 mb-1">Início das férias de meio de ano*</label>
+                <input type="date" id="inicioFerias" required class="w-full bg-white border border-slate-200 rounded-lg p-2.5 text-sm">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-500 mb-1">Fim das férias de meio de ano*</label>
+                <input type="date" id="fimFerias" required class="w-full bg-white border border-slate-200 rounded-lg p-2.5 text-sm">
+              </div>
             </div>
-            <div class="form-group">
-                <label>Data de início de uso no 2º semestre*</label>
-                <input type="date" id="dataInicio2S" required>
+            <div class="pt-2">
+              <label class="block text-[11px] font-black text-slate-500 uppercase tracking-wider mb-2">No período de férias, a escola fica aberta para mercadorias?*</label>
+              <select id="abertaFerias" required class="w-full bg-white border border-slate-200 rounded-lg p-2.5 text-sm">
+                  <option value="">Selecione...</option>
+                  <option value="Sim">Sim</option>
+                  <option value="Não">Não</option>
+              </select>
             </div>
-            <div class="form-group">
-                <label>Início das férias de meio de ano*</label>
-                <input type="date" id="inicioFerias" required>
-            </div>
-            <div class="form-group">
-                <label>Fim das férias de meio de ano*</label>
-                <input type="date" id="fimFerias" required>
-            </div>
-            <div class="form-group">
-                <label>No período de férias, a escola fica aberta para mercadorias?*</label>
-                <select id="abertaFerias" required>
-                    <option value="">Selecione...</option>
-                    <option value="Sim">Sim</option>
-                    <option value="Não">Não</option>
-                </select>
-            </div>
-        </fieldset>
-
-        <fieldset>
-            <legend>Contatos Corporativos e Gestão</legend>
-            <h3>Direção Escolar</h3>
-            <div class="form-group"><label>Nome*:</label> <input type="text" id="diretorNome" required></div>
-            <div class="form-group"><label>E-mail*:</label> <input type="email" id="diretorEmail" required></div>
-            <div class="form-group"><label>WhatsApp*:</label> <input type="text" id="diretorWhatsapp" required></div>
-
-            <h3>Departamento Financeiro</h3>
-            <div class="form-group"><label>Nome*:</label> <input type="text" id="financeiroNome" required></div>
-            <div class="form-group"><label>E-mail*:</label> <input type="email" id="financeiroEmail" required></div>
-            <div class="form-group"><label>WhatsApp*:</label> <input type="text" id="financeiroWhatsapp" required></div>
-
-            <h3>Responsável por Pedidos/Compras</h3>
-            <div class="form-group"><label>Nome*:</label> <input type="text" id="comprasNome" required></div>
-            <div class="form-group"><label>E-mail*:</label> <input type="email" id="comprasEmail" required></div>
-            <div class="form-group"><label>WhatsApp*:</label> <input type="text" id="comprasWhatsapp" required></div>
-        </fieldset>
-
-        <fieldset>
-            <legend>Equipe de Coordenação Pedagógica</legend>
-            <p>Indique os contatos (não obrigatório para todos).</p>
-            <h3>Educação Infantil</h3>
-            <div class="form-group"><label>Nome:</label> <input type="text" id="coordEINome"></div>
-            <div class="form-group"><label>E-mail:</label> <input type="email" id="coordEIEmail"></div>
-            <div class="form-group"><label>WhatsApp:</label> <input type="text" id="coordEIWhatsapp"></div>
-
-            <h3>Ensino Fundamental I</h3>
-            <div class="form-group"><label>Nome:</label> <input type="text" id="coordF1Nome"></div>
-            <div class="form-group"><label>E-mail:</label> <input type="email" id="coordF1Email"></div>
-            <div class="form-group"><label>WhatsApp:</label> <input type="text" id="coordF1Whatsapp"></div>
-
-            <h3>Ensino Fundamental II</h3>
-            <div class="form-group"><label>Nome:</label> <input type="text" id="coordF2Nome"></div>
-            <div class="form-group"><label>E-mail:</label> <input type="email" id="coordF2Email"></div>
-            <div class="form-group"><label>WhatsApp:</label> <input type="text" id="coordF2Whatsapp"></div>
-        </fieldset>
-
-        <fieldset>
-            <legend>Seleção de Segmentos</legend>
-            <p>Quais dos segmentos abaixo sua escola contratará?</p>
-            <div class="checkbox-group">
-                <label><input type="checkbox" id="checkEI" onchange="toggleSection('secEI', this.checked)"> Educação Infantil (EI)</label><br>
-                <label><input type="checkbox" id="checkF1" onchange="toggleSection('secF1', this.checked)"> Ensino Fundamental Anos Iniciais (F1)</label><br>
-                <label><input type="checkbox" id="checkF2" onchange="toggleSection('secF2', this.checked)"> Ensino Fundamental Anos Finais (F2)</label>
-            </div>
-        </fieldset>
-
-        <div id="secEI" class="hidden">
-            <fieldset>
-                <legend>Educação Infantil (EI)</legend>
-                
-                <div id="conteudoEI"></div>
-            </fieldset>
+          </div>
         </div>
+      </div>
 
-        <div id="secF1" class="hidden">
-            <fieldset>
-                <legend>Ensino Fundamental Anos Iniciais (F1)</legend>
-                <div id="conteudoF1"></div>
-            </fieldset>
-        </div>
+      <div class="step-content" data-step="2">
+        <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 space-y-6">
+          <div class="border-b border-slate-100 pb-4">
+            <h2 class="text-lg font-black text-slate-800 flex items-center gap-2"><i data-lucide="users" class="text-[#50b0a7]"></i> Contatos Corporativos e Gestão</h2>
+            <p class="text-xs text-slate-400 mt-1">Identifique os responsáveis legais, financeiros e operacionais para os fluxos contratuais.</p>
+          </div>
 
-        <div id="secF2" class="hidden">
-            <fieldset>
-                <legend>Ensino Fundamental Anos Finais (F2)</legend>
-                <div id="conteudoF2"></div>
-            </fieldset>
-        </div>
-
-        <fieldset>
-            <legend>Finalização e Validação</legend>
-            <p>Revise as informações antes de submeter os dados. Ao clicar em finalizar, a equipe será notificada e enviará o aditivo para seu e-mail.</p>
-            <div class="form-group">
-                <label style="font-weight: normal; color: var(--cor-secundaria);">
-                    <input type="checkbox" id="aceite" required> 
-                    Declaramos o ACEITE DA CONTRATACAO das modalidades e volumes de materiais escolares selecionados, responsabilizando-nos integralmente pela exatidao operacional e juridica.
-                </label>
+          <div class="bg-slate-50/50 p-5 rounded-xl border border-slate-100 space-y-4">
+            <h3 class="text-xs font-black uppercase text-[#50b0a7] tracking-wider">Direção Escolar</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-[11px] font-bold text-slate-500 mb-1">Nome*</label>
+                <input type="text" id="diretorNome" required class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-500 mb-1">E-mail*</label>
+                <input type="email" id="diretorEmail" required class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-500 mb-1">WhatsApp*</label>
+                <input type="text" id="diretorWhatsapp" required class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm">
+              </div>
             </div>
-            
-            <button type="submit" id="btnSalvar">Finalizar e Enviar</button>
-            <p id="loadingMsg">A enviar os dados de forma segura, por favor aguarde...</p>
-        </fieldset>
+          </div>
+
+          <div class="bg-slate-50/50 p-5 rounded-xl border border-slate-100 space-y-4">
+            <h3 class="text-xs font-black uppercase text-[#50b0a7] tracking-wider">Departamento Financeiro</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-[11px] font-bold text-slate-500 mb-1">Nome*</label>
+                <input type="text" id="financeiroNome" required class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-500 mb-1">E-mail*</label>
+                <input type="email" id="financeiroEmail" required class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-500 mb-1">WhatsApp*</label>
+                <input type="text" id="financeiroWhatsapp" required class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm">
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-50/50 p-5 rounded-xl border border-slate-100 space-y-4">
+            <h3 class="text-xs font-black uppercase text-[#50b0a7] tracking-wider">Resp. por Realizar Pedidos</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-[11px] font-bold text-slate-500 mb-1">Nome*</label>
+                <input type="text" id="comprasNome" required class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-500 mb-1">E-mail*</label>
+                <input type="email" id="comprasEmail" required class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-500 mb-1">WhatsApp*</label>
+                <input type="text" id="comprasWhatsapp" required class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-content" data-step="3">
+        <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 space-y-6">
+          <div class="border-b border-slate-100 pb-4">
+            <h2 class="text-lg font-black text-slate-800 flex items-center gap-2"><i data-lucide="graduation-cap" class="text-[#50b0a7]"></i> Equipe de Coordenação Pedagógica</h2>
+            <p class="text-xs text-slate-400 mt-1">Indique os contatos dos coordenadores (não é obrigatório).</p>
+          </div>
+
+          <div class="bg-slate-50/50 p-5 rounded-xl border border-slate-100 space-y-4">
+            <h3 class="text-xs font-black uppercase text-slate-600 tracking-wider flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-amber-400"></span> Educação Infantil</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div><label class="block text-[11px] font-bold text-slate-500 mb-1">Nome</label><input type="text" id="coordEINome" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+              <div><label class="block text-[11px] font-bold text-slate-500 mb-1">E-mail</label><input type="email" id="coordEIEmail" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+              <div><label class="block text-[11px] font-bold text-slate-500 mb-1">WhatsApp</label><input type="text" id="coordEIWhatsapp" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+            </div>
+          </div>
+
+          <div class="bg-slate-50/50 p-5 rounded-xl border border-slate-100 space-y-4">
+            <h3 class="text-xs font-black uppercase text-slate-600 tracking-wider flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> Ensino Fundamental I</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div><label class="block text-[11px] font-bold text-slate-500 mb-1">Nome</label><input type="text" id="coordF1Nome" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+              <div><label class="block text-[11px] font-bold text-slate-500 mb-1">E-mail</label><input type="email" id="coordF1Email" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+              <div><label class="block text-[11px] font-bold text-slate-500 mb-1">WhatsApp</label><input type="text" id="coordF1Whatsapp" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+            </div>
+          </div>
+
+          <div class="bg-slate-50/50 p-5 rounded-xl border border-slate-100 space-y-4">
+            <h3 class="text-xs font-black uppercase text-slate-600 tracking-wider flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-indigo-400"></span> Ensino Fundamental II</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div><label class="block text-[11px] font-bold text-slate-500 mb-1">Nome</label><input type="text" id="coordF2Nome" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+              <div><label class="block text-[11px] font-bold text-slate-500 mb-1">E-mail</label><input type="email" id="coordF2Email" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+              <div><label class="block text-[11px] font-bold text-slate-500 mb-1">WhatsApp</label><input type="text" id="coordF2Whatsapp" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-content" data-step="4">
+        <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 space-y-6">
+          <div class="border-b border-slate-100 pb-4">
+            <h2 class="text-lg font-black text-slate-800 flex items-center gap-2"><i data-lucide="layers" class="text-[#50b0a7]"></i> Seleção de Segmentos</h2>
+            <p class="text-xs text-slate-400 mt-1">Quais dos segmentos abaixo sua escola contratará?</p>
+          </div>
+          <div class="space-y-3">
+            <label class="flex items-center gap-3 cursor-pointer p-4 border border-slate-200 rounded-xl hover:bg-slate-50 transition-all">
+              <input type="checkbox" id="checkEI" class="w-5 h-5 accent-[#50b0a7] text-[#50b0a7] rounded" onchange="atualizarIndicadoresPassos()">
+              <span class="font-bold text-slate-700">Educação Infantil (EI)</span>
+            </label>
+            <label class="flex items-center gap-3 cursor-pointer p-4 border border-slate-200 rounded-xl hover:bg-slate-50 transition-all">
+              <input type="checkbox" id="checkF1" class="w-5 h-5 accent-[#50b0a7] text-[#50b0a7] rounded" onchange="atualizarIndicadoresPassos()">
+              <span class="font-bold text-slate-700">Ensino Fundamental Anos Iniciais (F1)</span>
+            </label>
+            <label class="flex items-center gap-3 cursor-pointer p-4 border border-slate-200 rounded-xl hover:bg-slate-50 transition-all">
+              <input type="checkbox" id="checkF2" class="w-5 h-5 accent-[#50b0a7] text-[#50b0a7] rounded" onchange="atualizarIndicadoresPassos()">
+              <span class="font-bold text-slate-700">Ensino Fundamental Anos Finais (F2)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-content" data-step="5">
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-6">
+          <h2 class="text-lg font-black text-slate-800 flex items-center gap-2"><i data-lucide="baby" class="text-[#50b0a7]"></i> Segmento: Educação Infantil</h2>
+          <p class="text-xs text-slate-400 mt-1">Configure as contratações e estimativas para as turmas.</p>
+        </div>
+        <div id="conteudoEI"></div>
+      </div>
+
+      <div class="step-content" data-step="6">
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-6">
+          <h2 class="text-lg font-black text-slate-800 flex items-center gap-2"><i data-lucide="backpack" class="text-[#50b0a7]"></i> Segmento: Ensino Fundamental I</h2>
+        </div>
+        <div id="conteudoF1"></div>
+      </div>
+
+      <div class="step-content" data-step="7">
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-6">
+          <h2 class="text-lg font-black text-slate-800 flex items-center gap-2"><i data-lucide="library" class="text-[#50b0a7]"></i> Segmento: Ensino Fundamental II</h2>
+        </div>
+        <div id="conteudoF2"></div>
+      </div>
+
+      <div class="step-content" data-step="8">
+        <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 space-y-6">
+          <div class="border-b border-slate-100 pb-4 text-center">
+            <div class="w-16 h-16 bg-[#50b0a7]/10 text-[#50b0a7] rounded-full flex items-center justify-center mx-auto mb-4">
+              <i data-lucide="check-circle-2" class="w-8 h-8"></i>
+            </div>
+            <h2 class="text-xl font-black text-slate-800">Finalização e Validação</h2>
+            <p class="text-sm text-slate-500 mt-2">Revise as informações antes de submeter os dados. Ao clicar em finalizar, a equipa será notificada e enviará o aditivo para o seu e-mail.</p>
+          </div>
+          
+          <label class="flex items-start gap-3 cursor-pointer p-5 border-2 border-[#50b0a7]/30 bg-[#50b0a7]/5 rounded-xl hover:bg-[#50b0a7]/10 transition-all">
+            <input type="checkbox" id="aceite" required class="w-6 h-6 mt-0.5 accent-[#50b0a7] text-[#50b0a7] rounded">
+            <span class="text-sm text-slate-700 font-medium leading-relaxed">
+              <strong>Declaramos o ACEITE DA CONTRATAÇÃO</strong> das modalidades e volumes de materiais escolares selecionados, responsabilizando-nos integralmente pela exatidão operacional e jurídica.
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between mt-8">
+        <button type="button" id="btnAnterior" onclick="voltarPasso()" class="hidden px-6 py-3 rounded-xl font-bold text-slate-600 bg-white border border-slate-200 shadow-sm hover:bg-slate-50 flex items-center gap-2 transition-all">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i> Anterior
+        </button>
+        <div class="flex-grow"></div>
+        <button type="button" id="btnProximo" onclick="avancarPasso()" class="px-8 py-3 rounded-xl font-bold text-white bg-[#50b0a7] shadow-lg shadow-[#50b0a7]/30 hover:bg-[#43968e] flex items-center gap-2 transition-all">
+          Próximo <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+        <button type="submit" id="btnSalvar" class="hidden px-8 py-3 rounded-xl font-bold text-white bg-[#f38932] shadow-lg shadow-[#f38932]/30 hover:bg-[#e07a29] flex items-center gap-2 transition-all">
+          Finalizar e Enviar <i data-lucide="send" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <p id="loadingMsg" class="text-center text-[#f38932] font-bold mt-4 hidden animate-pulse">A enviar os dados de forma segura, por favor aguarde...</p>
 
     </form>
-</div>
+  </main>
 
-<script>
+  <script>
     // =========================================================================
-    // CONFIGURAÇÃO DOS PRODUTOS (Feito assim para o código ficar limpo e didático)
+    // LISTA DE TÍTULOS (Arte e Música)
     // =========================================================================
-    
-    // Lista de livros de Artes e Música para uso no Ensino Infantil
     const titulosArteMusica = [
         "BLOCO DE ATIVIDADES FAZENDO ARTE COM MICHELANGELO | EI00A001BL0",
         "BLOCO DE ATIVIDADES FAZENDO ARTE COM REMBRANDT | EI00A002BL0",
@@ -305,35 +420,116 @@
     ];
 
     // =========================================================================
-    // GERAÇÃO DE INTERFACE HTML COM JAVASCRIPT
+    // LÓGICA DE NAVEGAÇÃO WIZARD (Passo a Passo)
+    // =========================================================================
+    let passoAtual = 1;
+    const totalPassos = 8;
+
+    function atualizarInterfaceWizard() {
+        // Oculta tudo e mostra apenas o atual
+        document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+        const elAtual = document.querySelector(`.step-content[data-step="${passoAtual}"]`);
+        if(elAtual) elAtual.classList.add('active');
+
+        // Atualiza a barra de progresso superior
+        document.querySelectorAll('.step-indicator').forEach(el => {
+            const numPasso = parseInt(el.getAttribute('data-step'));
+            const circulo = el.querySelector('.step-circle');
+            
+            if (numPasso === passoAtual) {
+                el.classList.add('text-[#50b0a7]'); el.classList.remove('text-slate-400');
+                circulo.classList.add('bg-current', 'text-white'); circulo.classList.remove('bg-white');
+            } else if (numPasso < passoAtual) {
+                el.classList.add('text-[#50b0a7]'); el.classList.remove('text-slate-400');
+                circulo.classList.remove('bg-current', 'text-white'); circulo.classList.add('bg-white');
+            } else {
+                el.classList.remove('text-[#50b0a7]'); el.classList.add('text-slate-400');
+                circulo.classList.remove('bg-current', 'text-white'); circulo.classList.add('bg-white');
+            }
+        });
+
+        // Controlo dos botões do fundo
+        document.getElementById('btnAnterior').classList.toggle('hidden', passoAtual === 1);
+        document.getElementById('btnProximo').classList.toggle('hidden', passoAtual === totalPassos);
+        document.getElementById('btnSalvar').classList.toggle('hidden', passoAtual !== totalPassos);
+        
+        lucide.createIcons();
+    }
+
+    // Esconde visualmente os passos no Tracker se o segmento não for selecionado
+    function atualizarIndicadoresPassos() {
+        const ei = document.getElementById('checkEI').checked;
+        const f1 = document.getElementById('checkF1').checked;
+        const f2 = document.getElementById('checkF2').checked;
+
+        document.getElementById('ind-5').style.display = ei ? 'flex' : 'none';
+        document.getElementById('line-5').style.display = ei ? 'block' : 'none';
+        document.getElementById('ind-6').style.display = f1 ? 'flex' : 'none';
+        document.getElementById('line-6').style.display = f1 ? 'block' : 'none';
+        document.getElementById('ind-7').style.display = f2 ? 'flex' : 'none';
+        document.getElementById('line-7').style.display = f2 ? 'block' : 'none';
+    }
+
+    function avancarPasso() {
+        // Validação HTML simples antes de avançar
+        const secaoAtual = document.querySelector(`.step-content[data-step="${passoAtual}"]`);
+        const inputsRequeridos = secaoAtual.querySelectorAll('[required]');
+        for(let input of inputsRequeridos) {
+            if(!input.reportValidity()) return; // Pára e mostra o aviso nativo se falhar
+        }
+
+        let prox = passoAtual + 1;
+        // Lógica para saltar secções que não foram marcadas
+        if(prox === 5 && !document.getElementById('checkEI').checked) prox++;
+        if(prox === 6 && !document.getElementById('checkF1').checked) prox++;
+        if(prox === 7 && !document.getElementById('checkF2').checked) prox++;
+
+        if (prox <= totalPassos) {
+            passoAtual = prox;
+            atualizarInterfaceWizard();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    function voltarPasso() {
+        let ant = passoAtual - 1;
+        if(ant === 7 && !document.getElementById('checkF2').checked) ant--;
+        if(ant === 6 && !document.getElementById('checkF1').checked) ant--;
+        if(ant === 5 && !document.getElementById('checkEI').checked) ant--;
+
+        if (ant >= 1) {
+            passoAtual = ant;
+            atualizarInterfaceWizard();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    // =========================================================================
+    // GERAÇÃO DE INTERFACE DOS PRODUTOS (Com HTML Tailwind)
     // =========================================================================
 
-    // Função para renderizar os blocos da Educação Infantil dinamicamente
     function renderizarEI() {
         const container = document.getElementById('conteudoEI');
         let html = '';
-
         for (let i = 1; i <= 5; i++) {
-            // Regra do kit anual (Furado vs Encadernado)
             let opcoesKit = `<option value="ALUNO EDUCACAO INFANTIL ${i} FURADO | AIN${i}AFU">ALUNO EDUCACAO INFANTIL ${i} FURADO | AIN${i}AFU</option>`;
-            if (i >= 4) {
-                opcoesKit += `<option value="ALUNO EDUCACAO INFANTIL ${i} ENCADERNADO | AIN${i}AEN">ALUNO EDUCACAO INFANTIL ${i} ENCADERNADO | AIN${i}AEN</option>`;
-            }
+            if (i >= 4) opcoesKit += `<option value="ALUNO EDUCACAO INFANTIL ${i} ENCADERNADO | AIN${i}AEN">ALUNO EDUCACAO INFANTIL ${i} ENCADERNADO | AIN${i}AEN</option>`;
 
-            // HTML dos Checkboxes de Títulos
-            let htmlTitulos = titulosArteMusica.map((titulo, index) => 
-                `<label><input type="checkbox" class="cb-titulo-ei${i}" value="${titulo}" onchange="validarMaxTitulos('ei${i}')"> ${titulo}</label><br>`
+            let htmlTitulos = titulosArteMusica.map(titulo => 
+                `<label class="flex items-start gap-2 text-[11px] text-slate-600 bg-slate-50 p-2 border border-slate-200 rounded cursor-pointer hover:bg-white transition-all">
+                    <input type="checkbox" class="cb-titulo-ei${i} mt-0.5 accent-[#50b0a7]" value="${titulo}" onchange="validarMaxTitulos('ei${i}')"> 
+                    <span class="leading-tight">${titulo}</span>
+                </label>`
             ).join('');
 
-            // Aprender a Palavra (Apenas para Infantil 3, 4 e 5)
             let htmlPalavra = '';
             if (i >= 3) {
                 let anoRef = i === 3 ? "3 ANOS" : (i === 4 ? "4 ANOS" : "5 ANOS");
                 let volRef = i === 3 ? "1" : (i === 4 ? "2" : "3");
                 htmlPalavra = `
-                <div class="form-group">
-                    <label>Aprender a Palavra Infantil ${i}</label>
-                    <select id="ei_inf${i}_palavra">
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-500 mb-1">Aprender a Palavra Infantil ${i}</label>
+                    <select id="ei_inf${i}_palavra" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm transition-all">
                         <option value="">Selecione...</option>
                         <option value="APRENDER A PLAVRA VOLUME ${volRef} ${anoRef} (A) | AP${volRef}INFANTALUNO">APRENDER A PLAVRA VOLUME ${volRef} ${anoRef} (A)</option>
                         <option value="NÃO CONTRATAR ESTE ANO">NÃO CONTRATAR ESTE ANO</option>
@@ -341,143 +537,153 @@
                 </div>`;
             }
 
-            // Montagem do Bloco Final para esta idade
             html += `
-            <div id="bloco_ei_${i}" style="border-bottom: 1px solid #ccc; padding-bottom: 15px; margin-bottom: 15px;">
-                <h3>INFANTIL ${i}</h3>
-                <div class="form-group">
-                    <label>Kit Anual*</label>
-                    <select id="ei_inf${i}_kit" onchange="verificarBloqueio('bloco_ei_${i}', this.value)">
+            <div id="bloco_ei_${i}" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 mb-5 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1.5 h-full bg-[#f38932]"></div>
+                <h3 class="text-base font-black text-slate-700 uppercase tracking-tight mb-4 border-b border-slate-100 pb-2">INFANTIL ${i}</h3>
+                
+                <div class="mb-5">
+                    <label class="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">Kit Anual*</label>
+                    <select id="ei_inf${i}_kit" onchange="verificarBloqueio('bloco_ei_${i}', this.value)" class="w-full bg-slate-50 border border-[#50b0a7]/30 focus:border-[#50b0a7] rounded-xl px-4 py-3 text-sm transition-all">
                         <option value="">Selecione...</option>
                         ${opcoesKit}
                         <option value="NÃO CONTRATAR ESTE ANO">NÃO CONTRATAR ESTE ANO</option>
                     </select>
                 </div>
                 
-                <div class="dependencia-contrato">
-                    <div class="form-group">
-                        <label>Contratar a Coleção de arte ou música?</label>
-                        <select id="ei_inf${i}_arteMusica" onchange="toggleTitulos('titulos_ei_${i}', this.value)">
+                <div class="dependencia-contrato space-y-5 transition-all duration-300">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-500 mb-1">Contratar a Coleção de arte ou música?</label>
+                        <select id="ei_inf${i}_arteMusica" onchange="toggleTitulos('titulos_ei_${i}', this.value)" class="w-full md:w-1/2 bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm transition-all">
                             <option value="">Selecione...</option>
                             <option value="Contratar">Contratar</option>
                             <option value="Não contratar este ano">Não contratar este ano</option>
                         </select>
                     </div>
 
-                    <div id="titulos_ei_${i}" class="titulos-container">
-                        <div class="aviso">Atenção: Selecione de 1 até 4 títulos:</div>
-                        ${htmlTitulos}
+                    <div id="titulos_ei_${i}" style="display:none;" class="bg-slate-50 p-4 rounded-xl border border-[#f38932]/30">
+                        <div class="text-[#f38932] font-bold text-[11px] uppercase tracking-wide flex items-center gap-1 mb-3">
+                            <i data-lucide="alert-circle" class="w-4 h-4"></i> Selecione de 1 até 4 títulos:
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">${htmlTitulos}</div>
                     </div>
 
                     ${htmlPalavra}
 
-                    <div class="form-group"><label>Quantidade de Alunos (estimativa):</label><input type="number" id="ei_inf${i}_qtdAlunos"></div>
-                    <div class="form-group"><label>Quantidade de Guias do Professor:</label><input type="number" id="ei_inf${i}_qtdProfessor"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-3 border-t border-slate-100">
+                        <div><label class="block text-[11px] font-bold text-slate-500 mb-1">Quantidade de Alunos (estimativa)</label><input type="number" id="ei_inf${i}_qtdAlunos" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+                        <div><label class="block text-[11px] font-bold text-slate-500 mb-1">Quantidade de Guias do Professor</label><input type="number" id="ei_inf${i}_qtdProfessor" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+                    </div>
                 </div>
             </div>`;
         }
         container.innerHTML = html;
     }
 
-    // Função para renderizar Ensino Fundamental 1 (1º ao 5º)
     function renderizarF1() {
         const container = document.getElementById('conteudoF1');
         let html = '';
         for (let i = 1; i <= 5; i++) {
-            let idade = i + 5; // 1º ano = 6 anos...
+            let idade = i + 5; 
             html += `
-            <div id="bloco_f1_${i}" style="border-bottom: 1px solid #ccc; padding-bottom: 15px; margin-bottom: 15px;">
-                <h3>EF ${i}º ANO</h3>
-                <div class="form-group">
-                    <label>Kit Anual*</label>
-                    <select id="f1_${i}ano_kit" onchange="verificarBloqueio('bloco_f1_${i}', this.value)">
+            <div id="bloco_f1_${i}" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 mb-5 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1.5 h-full bg-[#50b0a7]"></div>
+                <h3 class="text-base font-black text-slate-700 uppercase tracking-tight mb-4 border-b border-slate-100 pb-2">EF ${i}º ANO</h3>
+                
+                <div class="mb-5">
+                    <label class="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">Kit Anual*</label>
+                    <select id="f1_${i}ano_kit" onchange="verificarBloqueio('bloco_f1_${i}', this.value)" class="w-full bg-slate-50 border border-[#50b0a7]/30 focus:border-[#50b0a7] rounded-xl px-4 py-3 text-sm transition-all">
                         <option value="">Selecione...</option>
                         <option value="ALUNO ${i}º ANO FURADO | ALEF1ANO${i}AFU">ALUNO ${i}º ANO FURADO</option>
                         <option value="ALUNO ${i}º ANO ENCADERNADO | ALEF1ANO${i}AEN">ALUNO ${i}º ANO ENCADERNADO</option>
                         <option value="NÃO CONTRATAR ESTE ANO">NÃO CONTRATAR ESTE ANO</option>
                     </select>
                 </div>
-                <div class="dependencia-contrato">
-                    <label>Contratação Opcional:</label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" class="cb-opc-f1-${i}" value="APRENDER A PALAVRA VOLUME ${i} ${idade} ANOS (A) | AP${i}A"> Aprender a Palavra Vol ${i}</label><br>
-                        <label><input type="checkbox" class="cb-opc-f1-${i}" value="APOSTILA REVISTA PRINCIPIOS EM PAUTA ${i} ALUNO | APOPRINC0${i}AL"> Princípios em Pauta ${i}</label>
+                
+                <div class="dependencia-contrato space-y-4 transition-all duration-300">
+                    <label class="block text-[11px] font-bold text-slate-500 mb-2">Contratação Opcional:</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-2 text-sm text-slate-700 bg-slate-50 p-3 border border-slate-200 rounded-lg cursor-pointer hover:bg-white">
+                            <input type="checkbox" class="cb-opc-f1-${i} w-4 h-4 accent-[#50b0a7]" value="APRENDER A PALAVRA VOLUME ${i} ${idade} ANOS (A) | AP${i}A"> 
+                            Aprender a Palavra Vol ${i}
+                        </label>
+                        <label class="flex items-center gap-2 text-sm text-slate-700 bg-slate-50 p-3 border border-slate-200 rounded-lg cursor-pointer hover:bg-white">
+                            <input type="checkbox" class="cb-opc-f1-${i} w-4 h-4 accent-[#50b0a7]" value="APOSTILA REVISTA PRINCIPIOS EM PAUTA ${i} ALUNO | APOPRINC0${i}AL"> 
+                            Princípios em Pauta ${i}
+                        </label>
                     </div>
-                    <div class="form-group" style="margin-top:10px;"><label>Qtd Alunos (estimativa):</label><input type="number" id="f1_${i}ano_qtdAlunos"></div>
-                    <div class="form-group"><label>Qtd Guia do Professor:</label><input type="number" id="f1_${i}ano_qtdProfessor"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-3 border-t border-slate-100">
+                        <div><label class="block text-[11px] font-bold text-slate-500 mb-1">Qtd Alunos (estimativa)</label><input type="number" id="f1_${i}ano_qtdAlunos" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+                        <div><label class="block text-[11px] font-bold text-slate-500 mb-1">Qtd Guia do Professor</label><input type="number" id="f1_${i}ano_qtdProfessor" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+                    </div>
                 </div>
             </div>`;
         }
         container.innerHTML = html;
     }
 
-    // Função para renderizar Ensino Fundamental 2 (6º ao 9º)
     function renderizarF2() {
         const container = document.getElementById('conteudoF2');
         let html = '';
         for (let i = 6; i <= 9; i++) {
             let idade = i + 5;
             html += `
-            <div id="bloco_f2_${i}" style="border-bottom: 1px solid #ccc; padding-bottom: 15px; margin-bottom: 15px;">
-                <h3>EF ${i}º ANO</h3>
-                <div class="form-group">
-                    <label>Kit Anual*</label>
-                    <select id="f2_${i}ano_kit" onchange="verificarBloqueio('bloco_f2_${i}', this.value)">
+            <div id="bloco_f2_${i}" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 mb-5 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1.5 h-full bg-slate-800"></div>
+                <h3 class="text-base font-black text-slate-700 uppercase tracking-tight mb-4 border-b border-slate-100 pb-2">EF ${i}º ANO</h3>
+                
+                <div class="mb-5">
+                    <label class="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2">Kit Anual*</label>
+                    <select id="f2_${i}ano_kit" onchange="verificarBloqueio('bloco_f2_${i}', this.value)" class="w-full bg-slate-50 border border-[#50b0a7]/30 focus:border-[#50b0a7] rounded-xl px-4 py-3 text-sm transition-all">
                         <option value="">Selecione...</option>
                         <option value="ALUNO ${i}º ANO FURADO | ALEF2ANO${i}AFU">ALUNO ${i}º ANO FURADO</option>
                         <option value="ALUNO ${i}º ANO ENCADERNADO | ALEF2ANO${i}AEN">ALUNO ${i}º ANO ENCADERNADO</option>
                         <option value="NÃO CONTRATAR ESTE ANO">NÃO CONTRATAR ESTE ANO</option>
                     </select>
                 </div>
-                <div class="dependencia-contrato">
-                    <label>Contratação Opcional:</label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" class="cb-opc-f2-${i}" value="APRENDER A PALAVRA VOLUME ${i} ${idade} ANOS (A) | AP${i}A"> Aprender a Palavra Vol ${i}</label>
+                <div class="dependencia-contrato space-y-4 transition-all duration-300">
+                    <label class="block text-[11px] font-bold text-slate-500 mb-2">Contratação Opcional:</label>
+                    <label class="flex items-center gap-2 text-sm text-slate-700 bg-slate-50 p-3 border border-slate-200 rounded-lg cursor-pointer hover:bg-white">
+                        <input type="checkbox" class="cb-opc-f2-${i} w-4 h-4 accent-[#50b0a7]" value="APRENDER A PALAVRA VOLUME ${i} ${idade} ANOS (A) | AP${i}A"> 
+                        Aprender a Palavra Vol ${i}
+                    </label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-3 border-t border-slate-100">
+                        <div><label class="block text-[11px] font-bold text-slate-500 mb-1">Qtd Alunos (estimativa)</label><input type="number" id="f2_${i}ano_qtdAlunos" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+                        <div><label class="block text-[11px] font-bold text-slate-500 mb-1">Qtd Guia do Professor</label><input type="number" id="f2_${i}ano_qtdProfessor" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
                     </div>
-                    <div class="form-group" style="margin-top:10px;"><label>Qtd Alunos (estimativa):</label><input type="number" id="f2_${i}ano_qtdAlunos"></div>
-                    <div class="form-group"><label>Qtd Guia do Professor:</label><input type="number" id="f2_${i}ano_qtdProfessor"></div>
                 </div>
             </div>`;
         }
         container.innerHTML = html;
     }
 
-    // Executa a montagem quando a página carrega
+    // =========================================================================
+    // INICIALIZAÇÃO E UTILITÁRIOS
+    // =========================================================================
     window.onload = () => {
         renderizarEI();
         renderizarF1();
         renderizarF2();
+        atualizarIndicadoresPassos();
+        atualizarInterfaceWizard();
+        lucide.createIcons();
     };
 
-    // =========================================================================
-    // LÓGICAS DE VALIDAÇÃO E INTERAÇÃO
-    // =========================================================================
-
-    // Mascara simples para formatar o CNPJ enquanto o cliente digita
     function mascaraCNPJ(input) {
-        let value = input.value.replace(/\D/g, "");
-        if(value.length > 14) value = value.slice(0,14);
-        value = value.replace(/^(\d{2})(\d)/, "$1.$2");
-        value = value.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
-        value = value.replace(/\.(\d{3})(\d)/, ".$1/$2");
-        value = value.replace(/(\d{4})(\d)/, "$1-$2");
-        input.value = value;
+        let v = input.value.replace(/\D/g, "");
+        if(v.length > 14) v = v.slice(0,14);
+        v = v.replace(/^(\d{2})(\d)/, "$1.$2");
+        v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+        v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
+        v = v.replace(/(\d{4})(\d)/, "$1-$2");
+        input.value = v;
     }
 
-    // Mostra/Oculta as seções grandes baseadas nos checkboxes "Segmentos"
-    function toggleSection(idSecao, checked) {
-        const el = document.getElementById(idSecao);
-        if (checked) el.classList.remove('hidden');
-        else el.classList.add('hidden');
-    }
-
-    // Se selecionar "NÃO CONTRATAR ESTE ANO", bloqueia (desabilita) os campos abaixo
-    function verificarBloqueio(idBloco, valorSelect) {
+    function verificarBloqueio(idBloco, valor) {
         const bloco = document.getElementById(idBloco);
         const areaDependente = bloco.querySelector('.dependencia-contrato');
-        if (valorSelect === "NÃO CONTRATAR ESTE ANO") {
+        if (valor === "NÃO CONTRATAR ESTE ANO") {
             areaDependente.classList.add('disabled-section');
-            // Limpa dados marcados para não enviar sujeira
             const inputs = areaDependente.querySelectorAll('input, select');
             inputs.forEach(inp => { if(inp.type==='checkbox') inp.checked=false; else inp.value=''; });
         } else {
@@ -485,31 +691,25 @@
         }
     }
 
-    // Abre a caixinha com os 12 livros se a pessoa escolher "Contratar" arte ou música
     function toggleTitulos(idContainer, valor) {
         const el = document.getElementById(idContainer);
         if (valor === "Contratar") el.style.display = 'block';
         else {
             el.style.display = 'none';
-            // Desmarca todos se decidir não contratar
-            const cbs = el.querySelectorAll('input[type="checkbox"]');
-            cbs.forEach(cb => cb.checked = false);
+            el.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
         }
     }
 
-    // Regra rígida: Máximo de 4 títulos selecionados
     function validarMaxTitulos(classeId) {
         const checkboxes = document.querySelectorAll(`.cb-titulo-${classeId}`);
         let selecionados = 0;
         checkboxes.forEach(cb => { if (cb.checked) selecionados++; });
-        
         if (selecionados > 4) {
             alert("Atenção: Você só pode aplicar até 4 títulos por faixa etária.");
-            event.target.checked = false; // Desfaz a última seleção
+            event.target.checked = false;
         }
     }
 
-    // Helper para extrair valores de checkboxes
     function getCheckedValues(selector) {
         const cbs = document.querySelectorAll(selector);
         let vals = [];
@@ -518,173 +718,75 @@
     }
 
     // =========================================================================
-    // COMUNICAÇÃO COM O GOOGLE APPS SCRIPT
+    // INTEGRAÇÃO COM O SCRIPT GOOGLE
     // =========================================================================
-    
-    // Cola a tua URL do Google Script aqui!
     const URL_GAS = "https://script.google.com/macros/s/AKfycbzt-QM-_py74UIYTkE2AEMbEJJzd5reaDFPlLoJSQROcp8pZ1KMOZmO6eK9-I-dSTqNww/exec";
 
     document.getElementById('kitsForm').addEventListener('submit', function(e) {
-        e.preventDefault(); // Impede a página de recarregar
+        e.preventDefault();
         
         document.getElementById('btnSalvar').style.display = 'none';
+        document.getElementById('btnAnterior').style.display = 'none';
         document.getElementById('loadingMsg').style.display = 'block';
 
-        // Constroi o objeto de dados a enviar (Exatamente como o teu script espera ler)
         const dados = {
-            nomeEscola: document.getElementById('nomeEscola').value,
-            cnpj: document.getElementById('cnpj').value,
-            inep: document.getElementById('inep').value,
-            emailEscola: document.getElementById('emailEscola').value,
-            associacao: document.getElementById('associacao').value,
-            comercializacao: document.getElementById('comercializacao').value,
-            mensalidadeEI: document.getElementById('mensalidadeEI').value,
-            mensalidadeF1: document.getElementById('mensalidadeF1').value,
-            mensalidadeF2: document.getElementById('mensalidadeF2').value,
-            website: document.getElementById('website').value,
-            redesSociais: document.getElementById('redesSociais').value,
-            linkLogomarca: document.getElementById('linkLogomarca').value,
-            
-            dataInicio1S: document.getElementById('dataInicio1S').value,
-            dataInicio2S: document.getElementById('dataInicio2S').value,
-            inicioFerias: document.getElementById('inicioFerias').value,
-            fimFerias: document.getElementById('fimFerias').value,
+            nomeEscola: document.getElementById('nomeEscola').value, cnpj: document.getElementById('cnpj').value,
+            inep: document.getElementById('inep').value, emailEscola: document.getElementById('emailEscola').value,
+            associacao: document.getElementById('associacao').value, comercializacao: document.getElementById('comercializacao').value,
+            mensalidadeEI: document.getElementById('mensalidadeEI').value, mensalidadeF1: document.getElementById('mensalidadeF1').value,
+            mensalidadeF2: document.getElementById('mensalidadeF2').value, website: document.getElementById('website').value,
+            redesSociais: document.getElementById('redesSociais').value, linkLogomarca: document.getElementById('linkLogomarca').value,
+            dataInicio1S: document.getElementById('dataInicio1S').value, dataInicio2S: document.getElementById('dataInicio2S').value,
+            inicioFerias: document.getElementById('inicioFerias').value, fimFerias: document.getElementById('fimFerias').value,
             abertaFerias: document.getElementById('abertaFerias').value,
-
-            diretorNome: document.getElementById('diretorNome').value,
-            diretorEmail: document.getElementById('diretorEmail').value,
-            diretorWhatsapp: document.getElementById('diretorWhatsapp').value,
-            financeiroNome: document.getElementById('financeiroNome').value,
-            financeiroEmail: document.getElementById('financeiroEmail').value,
-            financeiroWhatsapp: document.getElementById('financeiroWhatsapp').value,
-            comprasNome: document.getElementById('comprasNome').value,
-            comprasEmail: document.getElementById('comprasEmail').value,
-            comprasWhatsapp: document.getElementById('comprasWhatsapp').value,
-
-            coordEINome: document.getElementById('coordEINome').value,
-            coordEIEmail: document.getElementById('coordEIEmail').value,
-            coordEIWhatsapp: document.getElementById('coordEIWhatsapp').value,
-            coordF1Nome: document.getElementById('coordF1Nome').value,
-            coordF1Email: document.getElementById('coordF1Email').value,
-            coordF1Whatsapp: document.getElementById('coordF1Whatsapp').value,
-            coordF2Nome: document.getElementById('coordF2Nome').value,
-            coordF2Email: document.getElementById('coordF2Email').value,
-            coordF2Whatsapp: document.getElementById('coordF2Whatsapp').value,
-
-            contratouEI: document.getElementById('checkEI').checked ? "Sim" : "Não",
-            contratouF1: document.getElementById('checkF1').checked ? "Sim" : "Não",
-            contratouF2: document.getElementById('checkF2').checked ? "Sim" : "Não",
-
-            // Recolha EI
-            ei_inf1_kit: document.getElementById('ei_inf1_kit') ? document.getElementById('ei_inf1_kit').value : "",
-            ei_inf1_arteMusica: document.getElementById('ei_inf1_arteMusica') ? document.getElementById('ei_inf1_arteMusica').value : "",
-            ei_inf1_titulos: getCheckedValues('.cb-titulo-ei1'),
-            ei_inf1_qtdAlunos: document.getElementById('ei_inf1_qtdAlunos') ? document.getElementById('ei_inf1_qtdAlunos').value : "",
-            ei_inf1_qtdProfessor: document.getElementById('ei_inf1_qtdProfessor') ? document.getElementById('ei_inf1_qtdProfessor').value : "",
-
-            ei_inf2_kit: document.getElementById('ei_inf2_kit') ? document.getElementById('ei_inf2_kit').value : "",
-            ei_inf2_arteMusica: document.getElementById('ei_inf2_arteMusica') ? document.getElementById('ei_inf2_arteMusica').value : "",
-            ei_inf2_titulos: getCheckedValues('.cb-titulo-ei2'),
-            ei_inf2_qtdAlunos: document.getElementById('ei_inf2_qtdAlunos') ? document.getElementById('ei_inf2_qtdAlunos').value : "",
-            ei_inf2_qtdProfessor: document.getElementById('ei_inf2_qtdProfessor') ? document.getElementById('ei_inf2_qtdProfessor').value : "",
-
-            ei_inf3_kit: document.getElementById('ei_inf3_kit') ? document.getElementById('ei_inf3_kit').value : "",
-            ei_inf3_arteMusica: document.getElementById('ei_inf3_arteMusica') ? document.getElementById('ei_inf3_arteMusica').value : "",
-            ei_inf3_titulos: getCheckedValues('.cb-titulo-ei3'),
-            ei_inf3_palavra: document.getElementById('ei_inf3_palavra') ? document.getElementById('ei_inf3_palavra').value : "",
-            ei_inf3_qtdAlunos: document.getElementById('ei_inf3_qtdAlunos') ? document.getElementById('ei_inf3_qtdAlunos').value : "",
-            ei_inf3_qtdProfessor: document.getElementById('ei_inf3_qtdProfessor') ? document.getElementById('ei_inf3_qtdProfessor').value : "",
-
-            ei_inf4_kit: document.getElementById('ei_inf4_kit') ? document.getElementById('ei_inf4_kit').value : "",
-            ei_inf4_arteMusica: document.getElementById('ei_inf4_arteMusica') ? document.getElementById('ei_inf4_arteMusica').value : "",
-            ei_inf4_titulos: getCheckedValues('.cb-titulo-ei4'),
-            ei_inf4_palavra: document.getElementById('ei_inf4_palavra') ? document.getElementById('ei_inf4_palavra').value : "",
-            ei_inf4_qtdAlunos: document.getElementById('ei_inf4_qtdAlunos') ? document.getElementById('ei_inf4_qtdAlunos').value : "",
-            ei_inf4_qtdProfessor: document.getElementById('ei_inf4_qtdProfessor') ? document.getElementById('ei_inf4_qtdProfessor').value : "",
-
-            ei_inf5_kit: document.getElementById('ei_inf5_kit') ? document.getElementById('ei_inf5_kit').value : "",
-            ei_inf5_arteMusica: document.getElementById('ei_inf5_arteMusica') ? document.getElementById('ei_inf5_arteMusica').value : "",
-            ei_inf5_titulos: getCheckedValues('.cb-titulo-ei5'),
-            ei_inf5_palavra: document.getElementById('ei_inf5_palavra') ? document.getElementById('ei_inf5_palavra').value : "",
-            ei_inf5_qtdAlunos: document.getElementById('ei_inf5_qtdAlunos') ? document.getElementById('ei_inf5_qtdAlunos').value : "",
-            ei_inf5_qtdProfessor: document.getElementById('ei_inf5_qtdProfessor') ? document.getElementById('ei_inf5_qtdProfessor').value : "",
-
-            // Recolha F1
-            f1_1ano_kit: document.getElementById('f1_1ano_kit') ? document.getElementById('f1_1ano_kit').value : "",
-            f1_1ano_opc: getCheckedValues('.cb-opc-f1-1'),
-            f1_1ano_qtdAlunos: document.getElementById('f1_1ano_qtdAlunos') ? document.getElementById('f1_1ano_qtdAlunos').value : "",
-            f1_1ano_qtdProfessor: document.getElementById('f1_1ano_qtdProfessor') ? document.getElementById('f1_1ano_qtdProfessor').value : "",
-
-            f1_2ano_kit: document.getElementById('f1_2ano_kit') ? document.getElementById('f1_2ano_kit').value : "",
-            f1_2ano_opc: getCheckedValues('.cb-opc-f1-2'),
-            f1_2ano_qtdAlunos: document.getElementById('f1_2ano_qtdAlunos') ? document.getElementById('f1_2ano_qtdAlunos').value : "",
-            f1_2ano_qtdProfessor: document.getElementById('f1_2ano_qtdProfessor') ? document.getElementById('f1_2ano_qtdProfessor').value : "",
-
-            f1_3ano_kit: document.getElementById('f1_3ano_kit') ? document.getElementById('f1_3ano_kit').value : "",
-            f1_3ano_opc: getCheckedValues('.cb-opc-f1-3'),
-            f1_3ano_qtdAlunos: document.getElementById('f1_3ano_qtdAlunos') ? document.getElementById('f1_3ano_qtdAlunos').value : "",
-            f1_3ano_qtdProfessor: document.getElementById('f1_3ano_qtdProfessor') ? document.getElementById('f1_3ano_qtdProfessor').value : "",
-
-            f1_4ano_kit: document.getElementById('f1_4ano_kit') ? document.getElementById('f1_4ano_kit').value : "",
-            f1_4ano_opc: getCheckedValues('.cb-opc-f1-4'),
-            f1_4ano_qtdAlunos: document.getElementById('f1_4ano_qtdAlunos') ? document.getElementById('f1_4ano_qtdAlunos').value : "",
-            f1_4ano_qtdProfessor: document.getElementById('f1_4ano_qtdProfessor') ? document.getElementById('f1_4ano_qtdProfessor').value : "",
-
-            f1_5ano_kit: document.getElementById('f1_5ano_kit') ? document.getElementById('f1_5ano_kit').value : "",
-            f1_5ano_opc: getCheckedValues('.cb-opc-f1-5'),
-            f1_5ano_qtdAlunos: document.getElementById('f1_5ano_qtdAlunos') ? document.getElementById('f1_5ano_qtdAlunos').value : "",
-            f1_5ano_qtdProfessor: document.getElementById('f1_5ano_qtdProfessor') ? document.getElementById('f1_5ano_qtdProfessor').value : "",
-
-            // Recolha F2
-            f2_6ano_kit: document.getElementById('f2_6ano_kit') ? document.getElementById('f2_6ano_kit').value : "",
-            f2_6ano_opc: getCheckedValues('.cb-opc-f2-6'),
-            f2_6ano_qtdAlunos: document.getElementById('f2_6ano_qtdAlunos') ? document.getElementById('f2_6ano_qtdAlunos').value : "",
-            f2_6ano_qtdProfessor: document.getElementById('f2_6ano_qtdProfessor') ? document.getElementById('f2_6ano_qtdProfessor').value : "",
-
-            f2_7ano_kit: document.getElementById('f2_7ano_kit') ? document.getElementById('f2_7ano_kit').value : "",
-            f2_7ano_opc: getCheckedValues('.cb-opc-f2-7'),
-            f2_7ano_qtdAlunos: document.getElementById('f2_7ano_qtdAlunos') ? document.getElementById('f2_7ano_qtdAlunos').value : "",
-            f2_7ano_qtdProfessor: document.getElementById('f2_7ano_qtdProfessor') ? document.getElementById('f2_7ano_qtdProfessor').value : "",
-
-            f2_8ano_kit: document.getElementById('f2_8ano_kit') ? document.getElementById('f2_8ano_kit').value : "",
-            f2_8ano_opc: getCheckedValues('.cb-opc-f2-8'),
-            f2_8ano_qtdAlunos: document.getElementById('f2_8ano_qtdAlunos') ? document.getElementById('f2_8ano_qtdAlunos').value : "",
-            f2_8ano_qtdProfessor: document.getElementById('f2_8ano_qtdProfessor') ? document.getElementById('f2_8ano_qtdProfessor').value : "",
-
-            f2_9ano_kit: document.getElementById('f2_9ano_kit') ? document.getElementById('f2_9ano_kit').value : "",
-            f2_9ano_opc: getCheckedValues('.cb-opc-f2-9'),
-            f2_9ano_qtdAlunos: document.getElementById('f2_9ano_qtdAlunos') ? document.getElementById('f2_9ano_qtdAlunos').value : "",
-            f2_9ano_qtdProfessor: document.getElementById('f2_9ano_qtdProfessor') ? document.getElementById('f2_9ano_qtdProfessor').value : "",
-
+            diretorNome: document.getElementById('diretorNome').value, diretorEmail: document.getElementById('diretorEmail').value, diretorWhatsapp: document.getElementById('diretorWhatsapp').value,
+            financeiroNome: document.getElementById('financeiroNome').value, financeiroEmail: document.getElementById('financeiroEmail').value, financeiroWhatsapp: document.getElementById('financeiroWhatsapp').value,
+            comprasNome: document.getElementById('comprasNome').value, comprasEmail: document.getElementById('comprasEmail').value, comprasWhatsapp: document.getElementById('comprasWhatsapp').value,
+            coordEINome: document.getElementById('coordEINome').value, coordEIEmail: document.getElementById('coordEIEmail').value, coordEIWhatsapp: document.getElementById('coordEIWhatsapp').value,
+            coordF1Nome: document.getElementById('coordF1Nome').value, coordF1Email: document.getElementById('coordF1Email').value, coordF1Whatsapp: document.getElementById('coordF1Whatsapp').value,
+            coordF2Nome: document.getElementById('coordF2Nome').value, coordF2Email: document.getElementById('coordF2Email').value, coordF2Whatsapp: document.getElementById('coordF2Whatsapp').value,
+            contratouEI: document.getElementById('checkEI').checked ? "Sim" : "Não", contratouF1: document.getElementById('checkF1').checked ? "Sim" : "Não", contratouF2: document.getElementById('checkF2').checked ? "Sim" : "Não",
+            
+            // EI
+            ei_inf1_kit: document.getElementById('ei_inf1_kit')?.value||"", ei_inf1_arteMusica: document.getElementById('ei_inf1_arteMusica')?.value||"", ei_inf1_titulos: getCheckedValues('.cb-titulo-ei1'), ei_inf1_qtdAlunos: document.getElementById('ei_inf1_qtdAlunos')?.value||"", ei_inf1_qtdProfessor: document.getElementById('ei_inf1_qtdProfessor')?.value||"",
+            ei_inf2_kit: document.getElementById('ei_inf2_kit')?.value||"", ei_inf2_arteMusica: document.getElementById('ei_inf2_arteMusica')?.value||"", ei_inf2_titulos: getCheckedValues('.cb-titulo-ei2'), ei_inf2_qtdAlunos: document.getElementById('ei_inf2_qtdAlunos')?.value||"", ei_inf2_qtdProfessor: document.getElementById('ei_inf2_qtdProfessor')?.value||"",
+            ei_inf3_kit: document.getElementById('ei_inf3_kit')?.value||"", ei_inf3_arteMusica: document.getElementById('ei_inf3_arteMusica')?.value||"", ei_inf3_titulos: getCheckedValues('.cb-titulo-ei3'), ei_inf3_palavra: document.getElementById('ei_inf3_palavra')?.value||"", ei_inf3_qtdAlunos: document.getElementById('ei_inf3_qtdAlunos')?.value||"", ei_inf3_qtdProfessor: document.getElementById('ei_inf3_qtdProfessor')?.value||"",
+            ei_inf4_kit: document.getElementById('ei_inf4_kit')?.value||"", ei_inf4_arteMusica: document.getElementById('ei_inf4_arteMusica')?.value||"", ei_inf4_titulos: getCheckedValues('.cb-titulo-ei4'), ei_inf4_palavra: document.getElementById('ei_inf4_palavra')?.value||"", ei_inf4_qtdAlunos: document.getElementById('ei_inf4_qtdAlunos')?.value||"", ei_inf4_qtdProfessor: document.getElementById('ei_inf4_qtdProfessor')?.value||"",
+            ei_inf5_kit: document.getElementById('ei_inf5_kit')?.value||"", ei_inf5_arteMusica: document.getElementById('ei_inf5_arteMusica')?.value||"", ei_inf5_titulos: getCheckedValues('.cb-titulo-ei5'), ei_inf5_palavra: document.getElementById('ei_inf5_palavra')?.value||"", ei_inf5_qtdAlunos: document.getElementById('ei_inf5_qtdAlunos')?.value||"", ei_inf5_qtdProfessor: document.getElementById('ei_inf5_qtdProfessor')?.value||"",
+            
+            // F1
+            f1_1ano_kit: document.getElementById('f1_1ano_kit')?.value||"", f1_1ano_opc: getCheckedValues('.cb-opc-f1-1'), f1_1ano_qtdAlunos: document.getElementById('f1_1ano_qtdAlunos')?.value||"", f1_1ano_qtdProfessor: document.getElementById('f1_1ano_qtdProfessor')?.value||"",
+            f1_2ano_kit: document.getElementById('f1_2ano_kit')?.value||"", f1_2ano_opc: getCheckedValues('.cb-opc-f1-2'), f1_2ano_qtdAlunos: document.getElementById('f1_2ano_qtdAlunos')?.value||"", f1_2ano_qtdProfessor: document.getElementById('f1_2ano_qtdProfessor')?.value||"",
+            f1_3ano_kit: document.getElementById('f1_3ano_kit')?.value||"", f1_3ano_opc: getCheckedValues('.cb-opc-f1-3'), f1_3ano_qtdAlunos: document.getElementById('f1_3ano_qtdAlunos')?.value||"", f1_3ano_qtdProfessor: document.getElementById('f1_3ano_qtdProfessor')?.value||"",
+            f1_4ano_kit: document.getElementById('f1_4ano_kit')?.value||"", f1_4ano_opc: getCheckedValues('.cb-opc-f1-4'), f1_4ano_qtdAlunos: document.getElementById('f1_4ano_qtdAlunos')?.value||"", f1_4ano_qtdProfessor: document.getElementById('f1_4ano_qtdProfessor')?.value||"",
+            f1_5ano_kit: document.getElementById('f1_5ano_kit')?.value||"", f1_5ano_opc: getCheckedValues('.cb-opc-f1-5'), f1_5ano_qtdAlunos: document.getElementById('f1_5ano_qtdAlunos')?.value||"", f1_5ano_qtdProfessor: document.getElementById('f1_5ano_qtdProfessor')?.value||"",
+            
+            // F2
+            f2_6ano_kit: document.getElementById('f2_6ano_kit')?.value||"", f2_6ano_opc: getCheckedValues('.cb-opc-f2-6'), f2_6ano_qtdAlunos: document.getElementById('f2_6ano_qtdAlunos')?.value||"", f2_6ano_qtdProfessor: document.getElementById('f2_6ano_qtdProfessor')?.value||"",
+            f2_7ano_kit: document.getElementById('f2_7ano_kit')?.value||"", f2_7ano_opc: getCheckedValues('.cb-opc-f2-7'), f2_7ano_qtdAlunos: document.getElementById('f2_7ano_qtdAlunos')?.value||"", f2_7ano_qtdProfessor: document.getElementById('f2_7ano_qtdProfessor')?.value||"",
+            f2_8ano_kit: document.getElementById('f2_8ano_kit')?.value||"", f2_8ano_opc: getCheckedValues('.cb-opc-f2-8'), f2_8ano_qtdAlunos: document.getElementById('f2_8ano_qtdAlunos')?.value||"", f2_8ano_qtdProfessor: document.getElementById('f2_8ano_qtdProfessor')?.value||"",
+            f2_9ano_kit: document.getElementById('f2_9ano_kit')?.value||"", f2_9ano_opc: getCheckedValues('.cb-opc-f2-9'), f2_9ano_qtdAlunos: document.getElementById('f2_9ano_qtdAlunos')?.value||"", f2_9ano_qtdProfessor: document.getElementById('f2_9ano_qtdProfessor')?.value||"",
+            
             aceite: document.getElementById('aceite').checked ? "Sim" : "Não"
         };
 
-        // Usa 'text/plain' para evitar problemas de bloqueio (CORS) ao comunicar do GitHub pro Google
-        fetch(URL_GAS, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(dados)
-        })
-        .then(response => response.json())
+        fetch(URL_GAS, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(dados) })
+        .then(res => res.json())
         .then(data => {
             if(data.status === "success") {
                 alert("Dados enviados com sucesso! A equipa comercial gerará o aditivo e enviará para o teu email.");
                 document.getElementById('kitsForm').reset();
+                passoAtual = 1; atualizarInterfaceWizard();
                 window.scrollTo(0,0);
-            } else {
-                alert("Ocorreu um erro no servidor: " + data.message);
-            }
+            } else { alert("Erro no servidor: " + data.message); }
         })
-        .catch(error => {
-            alert("Erro de comunicação com o servidor.");
-            console.error('Error:', error);
-        })
+        .catch(err => { alert("Erro de comunicação com o servidor."); console.error(err); })
         .finally(() => {
-            document.getElementById('btnSalvar').style.display = 'block';
+            document.getElementById('btnSalvar').style.display = 'flex';
+            document.getElementById('btnAnterior').style.display = 'flex';
             document.getElementById('loadingMsg').style.display = 'none';
         });
     });
-</script>
-
+  </script>
 </body>
 </html>
