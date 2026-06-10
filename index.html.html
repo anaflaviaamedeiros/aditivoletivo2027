@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Definição de Kits Escolares</title>
+    <style>
+        /* ================= ESTILOS VISUAIS ================= */
+        :root {
+            --cor-principal: #50b0a7;
+            --cor-secundaria: #f38932;
+            --cor-fundo: #f4efe8;
+            --cor-texto: #333333;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        h1, h2, h3 { color: var(--cor-principal); }
+        h1 { text-align: center; border-bottom: 2px solid var(--cor-principal); padding-bottom: 10px; }
+        
+        fieldset {
+            border: 2px solid var(--cor-principal);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            background-color: #faf9f7;
+        }
+        
+        legend {
+            background-color: var(--cor-principal);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        
+        input[type="text"], input[type="email"], input[type="number"], input[type="date"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .checkbox-group label, .radio-group label {
+            display: inline-block;
+            font-weight: normal;
+            margin-right: 15px;
+        }
+
+        .titulos-container {
+            display: none;
+            background-color: white;
+            padding: 15px;
+            border: 1px dashed var(--cor-secundaria);
+            margin-top: 10px;
+        }
+
+        .aviso { color: var(--cor-secundaria); font-weight: bold; font-size: 0.9em; margin-bottom: 10px; }
+        
+        .hidden { display: none; }
+        .disabled-section { opacity: 0.5; pointer-events: none; }
+
+        button {
+            background-color: var(--cor-principal);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+        }
+        
+        button:hover { background-color: #3d8b83; }
+        
+        #loadingMsg { text-align: center; color: var(--cor-secundaria); font-weight: bold; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Sistema de Definição de Kits Escolares</h1>
+
+    <form id="kitsForm">
+        <fieldset>
+            <legend>Identificação e Operação Logística</legend>
+            <div class="form-group">
+                <label>Nome da Escola*</label>
+                <input type="text" id="nomeEscola" required>
+            </div>
+            <div class="form-group">
+                <label>CNPJ* (Formato: XX.XXX.XXX/XXXX-XX)</label>
+                <input type="text" id="cnpj" maxlength="18" oninput="mascaraCNPJ(this)" required>
+            </div>
+            <div class="form-group">
+                <label>Número do INEP</label>
+                <input type="text" id="inep">
+            </div>
+            <div class="form-group">
+                <label>Melhor email da escola*</label>
+                <input type="email" id="emailEscola" required>
+            </div>
+
+            <div class="form-group">
+                <label>Em qual destas opções sua escola se encaixa?*</label>
+                <select id="associacao" required>
+                    <option value="">Selecione...</option>
+                    <option value="Associada a AECEP">Associada a AECEP - enviar comprovante</option>
+                    <option value="Processo de Associacao com a AECEP">Processo de Associacao com a AECEP - enviar comprovante</option>
+                    <option value="Associada a AECEP em Missoes">Associada a AECEP em Missoes - enviar comprovante</option>
+                    <option value="Associada a ACSI">Associada a ACSI - enviar comprovante</option>
+                    <option value="Processo de Associacao com a ACSI">Processo de Associacao com a ACSI - enviar comprovante</option>
+                    <option value="Não Associada">Não Associada</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Forma de comercialização para o próximo ano:*</label>
+                <select id="comercializacao" required>
+                    <option value="">Selecione...</option>
+                    <option value="Escola para revenda - Semestral">Compra direta da Escola com a Editora para revenda - entrega semestral</option>
+                    <option value="Escola para revenda - Bimestral">Compra direta da Escola com a Editora para revenda - entrega bimestral</option>
+                    <option value="Pais na Loja Virtual">Compra direta dos Pais na Loja Virtual da Editora</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Valor médio da mensalidade na Educação Infantil (R$):</label>
+                <input type="number" id="mensalidadeEI" step="0.01">
+            </div>
+            <div class="form-group">
+                <label>Valor médio da mensalidade nos Anos Iniciais (R$):</label>
+                <input type="number" id="mensalidadeF1" step="0.01">
+            </div>
+            <div class="form-group">
+                <label>Valor médio da mensalidade nos Anos Finais (R$):</label>
+                <input type="number" id="mensalidadeF2" step="0.01">
+            </div>
+
+            <div class="form-group">
+                <label>Website da Escola*</label>
+                <input type="text" id="website" required>
+            </div>
+            <div class="form-group">
+                <label>Redes Sociais da Escola*</label>
+                <input type="text" id="redesSociais" required>
+            </div>
+            <div class="form-group">
+                <label>LOGOMARCA DA ESCOLA (Link aberto do DRIVE)*</label>
+                <input type="text" id="linkLogomarca" required>
+            </div>
+
+            <h3>Cronograma e Logística</h3>
+            <div class="form-group">
+                <label>Data de início de uso no 1º semestre*</label>
+                <input type="date" id="dataInicio1S" required>
+            </div>
+            <div class="form-group">
+                <label>Data de início de uso no 2º semestre*</label>
+                <input type="date" id="dataInicio2S" required>
+            </div>
+            <div class="form-group">
+                <label>Início das férias de meio de ano*</label>
+                <input type="date" id="inicioFerias" required>
+            </div>
+            <div class="form-group">
+                <label>Fim das férias de meio de ano*</label>
+                <input type="date" id="fimFerias" required>
+            </div>
+            <div class="form-group">
+                <label>No período de férias, a escola fica aberta para mercadorias?*</label>
+                <select id="abertaFerias" required>
+                    <option value="">Selecione...</option>
+                    <option value="Sim">Sim</option>
+                    <option value="Não">Não</option>
+                </select>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Contatos Corporativos e Gestão</legend>
+            <h3>Direção Escolar</h3>
+            <div class="form-group"><label>Nome*:</label> <input type="text" id="diretorNome" required></div>
+            <div class="form-group"><label>E-mail*:</label> <input type="email" id="diretorEmail" required></div>
+            <div class="form-group"><label>WhatsApp*:</label> <input type="text" id="diretorWhatsapp" required></div>
+
+            <h3>Departamento Financeiro</h3>
+            <div class="form-group"><label>Nome*:</label> <input type="text" id="financeiroNome" required></div>
+            <div class="form-group"><label>E-mail*:</label> <input type="email" id="financeiroEmail" required></div>
+            <div class="form-group"><label>WhatsApp*:</label> <input type="text" id="financeiroWhatsapp" required></div>
+
+            <h3>Responsável por Pedidos/Compras</h3>
+            <div class="form-group"><label>Nome*:</label> <input type="text" id="comprasNome" required></div>
+            <div class="form-group"><label>E-mail*:</label> <input type="email" id="comprasEmail" required></div>
+            <div class="form-group"><label>WhatsApp*:</label> <input type="text" id="comprasWhatsapp" required></div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Equipe de Coordenação Pedagógica</legend>
+            <p>Indique os contatos (não obrigatório para todos).</p>
+            <h3>Educação Infantil</h3>
+            <div class="form-group"><label>Nome:</label> <input type="text" id="coordEINome"></div>
+            <div class="form-group"><label>E-mail:</label> <input type="email" id="coordEIEmail"></div>
+            <div class="form-group"><label>WhatsApp:</label> <input type="text" id="coordEIWhatsapp"></div>
+
+            <h3>Ensino Fundamental I</h3>
+            <div class="form-group"><label>Nome:</label> <input type="text" id="coordF1Nome"></div>
+            <div class="form-group"><label>E-mail:</label> <input type="email" id="coordF1Email"></div>
+            <div class="form-group"><label>WhatsApp:</label> <input type="text" id="coordF1Whatsapp"></div>
+
+            <h3>Ensino Fundamental II</h3>
+            <div class="form-group"><label>Nome:</label> <input type="text" id="coordF2Nome"></div>
+            <div class="form-group"><label>E-mail:</label> <input type="email" id="coordF2Email"></div>
+            <div class="form-group"><label>WhatsApp:</label> <input type="text" id="coordF2Whatsapp"></div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Seleção de Segmentos</legend>
+            <p>Quais dos segmentos abaixo sua escola contratará?</p>
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="checkEI" onchange="toggleSection('secEI', this.checked)"> Educação Infantil (EI)</label><br>
+                <label><input type="checkbox" id="checkF1" onchange="toggleSection('secF1', this.checked)"> Ensino Fundamental Anos Iniciais (F1)</label><br>
+                <label><input type="checkbox" id="checkF2" onchange="toggleSection('secF2', this.checked)"> Ensino Fundamental Anos Finais (F2)</label>
+            </div>
+        </fieldset>
+
+        <div id="secEI" class="hidden">
+            <fieldset>
+                <legend>Educação Infantil (EI)</legend>
+                
+                <div id="conteudoEI"></div>
+            </fieldset>
+        </div>
+
+        <div id="secF1" class="hidden">
+            <fieldset>
+                <legend>Ensino Fundamental Anos Iniciais (F1)</legend>
+                <div id="conteudoF1"></div>
+            </fieldset>
+        </div>
+
+        <div id="secF2" class="hidden">
+            <fieldset>
+                <legend>Ensino Fundamental Anos Finais (F2)</legend>
+                <div id="conteudoF2"></div>
+            </fieldset>
+        </div>
+
+        <fieldset>
+            <legend>Finalização e Validação</legend>
+            <p>Revise as informações antes de submeter os dados. Ao clicar em finalizar, a equipe será notificada e enviará o aditivo para seu e-mail.</p>
+            <div class="form-group">
+                <label style="font-weight: normal; color: var(--cor-secundaria);">
+                    <input type="checkbox" id="aceite" required> 
+                    Declaramos o ACEITE DA CONTRATACAO das modalidades e volumes de materiais escolares selecionados, responsabilizando-nos integralmente pela exatidao operacional e juridica.
+                </label>
+            </div>
+            
+            <button type="submit" id="btnSalvar">Finalizar e Enviar</button>
+            <p id="loadingMsg">A enviar os dados de forma segura, por favor aguarde...</p>
+        </fieldset>
+
+    </form>
+</div>
+
+<script>
+    // =========================================================================
+    // CONFIGURAÇÃO DOS PRODUTOS (Feito assim para o código ficar limpo e didático)
+    // =========================================================================
+    
+    // Lista de livros de Artes e Música para uso no Ensino Infantil
+    const titulosArteMusica = [
+        "BLOCO DE ATIVIDADES FAZENDO ARTE COM MICHELANGELO | EI00A001BL0",
+        "BLOCO DE ATIVIDADES FAZENDO ARTE COM REMBRANDT | EI00A002BL0",
+        "BLOCO DE ATIVIDADES FAZENDO ARTE COM LEONARDO DA VINCI | EI00A003BL0",
+        "BLOCO DE ATIVIDADES FAZENDO ARTE COM PRINCÍPIOS | EI00A004BL0",
+        "BLOCO DE ATIVIDADES FAZENDO ARTE COM LUCAS CRANACH | EI00A005BL0",
+        "BLOCO DE ATIVIDADES FAZENDO ARTE COM POVOS DO BRASIL | EI00A006BL0",
+        "BLOCO DO ESTUDANTE APRENDENDO MÚSICA COM BACH | EI00A007BL0",
+        "BLOCO DO ESTUDANTE APRENDENDO MÚSICA NA VILA DA MÚSICA | EI00A008BL0",
+        "BLOCO DO ESTUDANTE APRENDENDO MÚSICA COM MOZART | EI00A009BL0",
+        "BLOCO DO ESTUDANTE APRENDENDO MÚSICA COM OS SETE PRINCÍPIOS | EI00A010BL0",
+        "BLOCO DO ESTUDANTE APRENDENDO MÚSICA COM BEETHOVEN | EI00A011BL0",
+        "BLOCO DO ESTUDANTE APRENDENDO MÚSICA COM OS POVOS DO BRASIL | EI00A012BL0"
+    ];
+
+    // =========================================================================
+    // GERAÇÃO DE INTERFACE HTML COM JAVASCRIPT
+    // =========================================================================
+
+    // Função para renderizar os blocos da Educação Infantil dinamicamente
+    function renderizarEI() {
+        const container = document.getElementById('conteudoEI');
+        let html = '';
+
+        for (let i = 1; i <= 5; i++) {
+            // Regra do kit anual (Furado vs Encadernado)
+            let opcoesKit = `<option value="ALUNO EDUCACAO INFANTIL ${i} FURADO | AIN${i}AFU">ALUNO EDUCACAO INFANTIL ${i} FURADO | AIN${i}AFU</option>`;
+            if (i >= 4) {
+                opcoesKit += `<option value="ALUNO EDUCACAO INFANTIL ${i} ENCADERNADO | AIN${i}AEN">ALUNO EDUCACAO INFANTIL ${i} ENCADERNADO | AIN${i}AEN</option>`;
+            }
+
+            // HTML dos Checkboxes de Títulos
+            let htmlTitulos = titulosArteMusica.map((titulo, index) => 
+                `<label><input type="checkbox" class="cb-titulo-ei${i}" value="${titulo}" onchange="validarMaxTitulos('ei${i}')"> ${titulo}</label><br>`
+            ).join('');
+
+            // Aprender a Palavra (Apenas para Infantil 3, 4 e 5)
+            let htmlPalavra = '';
+            if (i >= 3) {
+                let anoRef = i === 3 ? "3 ANOS" : (i === 4 ? "4 ANOS" : "5 ANOS");
+                let volRef = i === 3 ? "1" : (i === 4 ? "2" : "3");
+                htmlPalavra = `
+                <div class="form-group">
+                    <label>Aprender a Palavra Infantil ${i}</label>
+                    <select id="ei_inf${i}_palavra">
+                        <option value="">Selecione...</option>
+                        <option value="APRENDER A PLAVRA VOLUME ${volRef} ${anoRef} (A) | AP${volRef}INFANTALUNO">APRENDER A PLAVRA VOLUME ${volRef} ${anoRef} (A)</option>
+                        <option value="NÃO CONTRATAR ESTE ANO">NÃO CONTRATAR ESTE ANO</option>
+                    </select>
+                </div>`;
+            }
+
+            // Montagem do Bloco Final para esta idade
+            html += `
+            <div id="bloco_ei_${i}" style="border-bottom: 1px solid #ccc; padding-bottom: 15px; margin-bottom: 15px;">
+                <h3>INFANTIL ${i}</h3>
+                <div class="form-group">
+                    <label>Kit Anual*</label>
+                    <select id="ei_inf${i}_kit" onchange="verificarBloqueio('bloco_ei_${i}', this.value)">
+                        <option value="">Selecione...</option>
+                        ${opcoesKit}
+                        <option value="NÃO CONTRATAR ESTE ANO">NÃO CONTRATAR ESTE ANO</option>
+                    </select>
+                </div>
+                
+                <div class="dependencia-contrato">
+                    <div class="form-group">
+                        <label>Contratar a Coleção de arte ou música?</label>
+                        <select id="ei_inf${i}_arteMusica" onchange="toggleTitulos('titulos_ei_${i}', this.value)">
+                            <option value="">Selecione...</option>
+                            <option value="Contratar">Contratar</option>
+                            <option value="Não contratar este ano">Não contratar este ano</option>
+                        </select>
+                    </div>
+
+                    <div id="titulos_ei_${i}" class="titulos-container">
+                        <div class="aviso">Atenção: Selecione de 1 até 4 títulos:</div>
+                        ${htmlTitulos}
+                    </div>
+
+                    ${htmlPalavra}
+
+                    <div class="form-group"><label>Quantidade de Alunos (estimativa):</label><input type="number" id="ei_inf${i}_qtdAlunos"></div>
+                    <div class="form-group"><label>Quantidade de Guias do Professor:</label><input type="number" id="ei_inf${i}_qtdProfessor"></div>
+                </div>
+            </div>`;
+        }
+        container.innerHTML = html;
+    }
+
+    // Função para renderizar Ensino Fundamental 1 (1º ao 5º)
+    function renderizarF1() {
+        const container = document.getElementById('conteudoF1');
+        let html = '';
+        for (let i = 1; i <= 5; i++) {
+            let idade = i + 5; // 1º ano = 6 anos...
+            html += `
+            <div id="bloco_f1_${i}" style="border-bottom: 1px solid #ccc; padding-bottom: 15px; margin-bottom: 15px;">
+                <h3>EF ${i}º ANO</h3>
+                <div class="form-group">
+                    <label>Kit Anual*</label>
+                    <select id="f1_${i}ano_kit" onchange="verificarBloqueio('bloco_f1_${i}', this.value)">
+                        <option value="">Selecione...</option>
+                        <option value="ALUNO ${i}º ANO FURADO | ALEF1ANO${i}AFU">ALUNO ${i}º ANO FURADO</option>
+                        <option value="ALUNO ${i}º ANO ENCADERNADO | ALEF1ANO${i}AEN">ALUNO ${i}º ANO ENCADERNADO</option>
+                        <option value="NÃO CONTRATAR ESTE ANO">NÃO CONTRATAR ESTE ANO</option>
+                    </select>
+                </div>
+                <div class="dependencia-contrato">
+                    <label>Contratação Opcional:</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" class="cb-opc-f1-${i}" value="APRENDER A PALAVRA VOLUME ${i} ${idade} ANOS (A) | AP${i}A"> Aprender a Palavra Vol ${i}</label><br>
+                        <label><input type="checkbox" class="cb-opc-f1-${i}" value="APOSTILA REVISTA PRINCIPIOS EM PAUTA ${i} ALUNO | APOPRINC0${i}AL"> Princípios em Pauta ${i}</label>
+                    </div>
+                    <div class="form-group" style="margin-top:10px;"><label>Qtd Alunos (estimativa):</label><input type="number" id="f1_${i}ano_qtdAlunos"></div>
+                    <div class="form-group"><label>Qtd Guia do Professor:</label><input type="number" id="f1_${i}ano_qtdProfessor"></div>
+                </div>
+            </div>`;
+        }
+        container.innerHTML = html;
+    }
+
+    // Função para renderizar Ensino Fundamental 2 (6º ao 9º)
+    function renderizarF2() {
+        const container = document.getElementById('conteudoF2');
+        let html = '';
+        for (let i = 6; i <= 9; i++) {
+            let idade = i + 5;
+            html += `
+            <div id="bloco_f2_${i}" style="border-bottom: 1px solid #ccc; padding-bottom: 15px; margin-bottom: 15px;">
+                <h3>EF ${i}º ANO</h3>
+                <div class="form-group">
+                    <label>Kit Anual*</label>
+                    <select id="f2_${i}ano_kit" onchange="verificarBloqueio('bloco_f2_${i}', this.value)">
+                        <option value="">Selecione...</option>
+                        <option value="ALUNO ${i}º ANO FURADO | ALEF2ANO${i}AFU">ALUNO ${i}º ANO FURADO</option>
+                        <option value="ALUNO ${i}º ANO ENCADERNADO | ALEF2ANO${i}AEN">ALUNO ${i}º ANO ENCADERNADO</option>
+                        <option value="NÃO CONTRATAR ESTE ANO">NÃO CONTRATAR ESTE ANO</option>
+                    </select>
+                </div>
+                <div class="dependencia-contrato">
+                    <label>Contratação Opcional:</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" class="cb-opc-f2-${i}" value="APRENDER A PALAVRA VOLUME ${i} ${idade} ANOS (A) | AP${i}A"> Aprender a Palavra Vol ${i}</label>
+                    </div>
+                    <div class="form-group" style="margin-top:10px;"><label>Qtd Alunos (estimativa):</label><input type="number" id="f2_${i}ano_qtdAlunos"></div>
+                    <div class="form-group"><label>Qtd Guia do Professor:</label><input type="number" id="f2_${i}ano_qtdProfessor"></div>
+                </div>
+            </div>`;
+        }
+        container.innerHTML = html;
+    }
+
+    // Executa a montagem quando a página carrega
+    window.onload = () => {
+        renderizarEI();
+        renderizarF1();
+        renderizarF2();
+    };
+
+    // =========================================================================
+    // LÓGICAS DE VALIDAÇÃO E INTERAÇÃO
+    // =========================================================================
+
+    // Mascara simples para formatar o CNPJ enquanto o cliente digita
+    function mascaraCNPJ(input) {
+        let value = input.value.replace(/\D/g, "");
+        if(value.length > 14) value = value.slice(0,14);
+        value = value.replace(/^(\d{2})(\d)/, "$1.$2");
+        value = value.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+        value = value.replace(/\.(\d{3})(\d)/, ".$1/$2");
+        value = value.replace(/(\d{4})(\d)/, "$1-$2");
+        input.value = value;
+    }
+
+    // Mostra/Oculta as seções grandes baseadas nos checkboxes "Segmentos"
+    function toggleSection(idSecao, checked) {
+        const el = document.getElementById(idSecao);
+        if (checked) el.classList.remove('hidden');
+        else el.classList.add('hidden');
+    }
+
+    // Se selecionar "NÃO CONTRATAR ESTE ANO", bloqueia (desabilita) os campos abaixo
+    function verificarBloqueio(idBloco, valorSelect) {
+        const bloco = document.getElementById(idBloco);
+        const areaDependente = bloco.querySelector('.dependencia-contrato');
+        if (valorSelect === "NÃO CONTRATAR ESTE ANO") {
+            areaDependente.classList.add('disabled-section');
+            // Limpa dados marcados para não enviar sujeira
+            const inputs = areaDependente.querySelectorAll('input, select');
+            inputs.forEach(inp => { if(inp.type==='checkbox') inp.checked=false; else inp.value=''; });
+        } else {
+            areaDependente.classList.remove('disabled-section');
+        }
+    }
+
+    // Abre a caixinha com os 12 livros se a pessoa escolher "Contratar" arte ou música
+    function toggleTitulos(idContainer, valor) {
+        const el = document.getElementById(idContainer);
+        if (valor === "Contratar") el.style.display = 'block';
+        else {
+            el.style.display = 'none';
+            // Desmarca todos se decidir não contratar
+            const cbs = el.querySelectorAll('input[type="checkbox"]');
+            cbs.forEach(cb => cb.checked = false);
+        }
+    }
+
+    // Regra rígida: Máximo de 4 títulos selecionados
+    function validarMaxTitulos(classeId) {
+        const checkboxes = document.querySelectorAll(`.cb-titulo-${classeId}`);
+        let selecionados = 0;
+        checkboxes.forEach(cb => { if (cb.checked) selecionados++; });
+        
+        if (selecionados > 4) {
+            alert("Atenção: Você só pode aplicar até 4 títulos por faixa etária.");
+            event.target.checked = false; // Desfaz a última seleção
+        }
+    }
+
+    // Helper para extrair valores de checkboxes
+    function getCheckedValues(selector) {
+        const cbs = document.querySelectorAll(selector);
+        let vals = [];
+        cbs.forEach(cb => { if(cb.checked) vals.push(cb.value); });
+        return vals.join(" ; ");
+    }
+
+    // =========================================================================
+    // COMUNICAÇÃO COM O GOOGLE APPS SCRIPT
+    // =========================================================================
+    
+    // Cola a tua URL do Google Script aqui!
+    const URL_GAS = "https://script.google.com/macros/s/AKfycbzt-QM-_py74UIYTkE2AEMbEJJzd5reaDFPlLoJSQROcp8pZ1KMOZmO6eK9-I-dSTqNww/exec";
+
+    document.getElementById('kitsForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Impede a página de recarregar
+        
+        document.getElementById('btnSalvar').style.display = 'none';
+        document.getElementById('loadingMsg').style.display = 'block';
+
+        // Constroi o objeto de dados a enviar (Exatamente como o teu script espera ler)
+        const dados = {
+            nomeEscola: document.getElementById('nomeEscola').value,
+            cnpj: document.getElementById('cnpj').value,
+            inep: document.getElementById('inep').value,
+            emailEscola: document.getElementById('emailEscola').value,
+            associacao: document.getElementById('associacao').value,
+            comercializacao: document.getElementById('comercializacao').value,
+            mensalidadeEI: document.getElementById('mensalidadeEI').value,
+            mensalidadeF1: document.getElementById('mensalidadeF1').value,
+            mensalidadeF2: document.getElementById('mensalidadeF2').value,
+            website: document.getElementById('website').value,
+            redesSociais: document.getElementById('redesSociais').value,
+            linkLogomarca: document.getElementById('linkLogomarca').value,
+            
+            dataInicio1S: document.getElementById('dataInicio1S').value,
+            dataInicio2S: document.getElementById('dataInicio2S').value,
+            inicioFerias: document.getElementById('inicioFerias').value,
+            fimFerias: document.getElementById('fimFerias').value,
+            abertaFerias: document.getElementById('abertaFerias').value,
+
+            diretorNome: document.getElementById('diretorNome').value,
+            diretorEmail: document.getElementById('diretorEmail').value,
+            diretorWhatsapp: document.getElementById('diretorWhatsapp').value,
+            financeiroNome: document.getElementById('financeiroNome').value,
+            financeiroEmail: document.getElementById('financeiroEmail').value,
+            financeiroWhatsapp: document.getElementById('financeiroWhatsapp').value,
+            comprasNome: document.getElementById('comprasNome').value,
+            comprasEmail: document.getElementById('comprasEmail').value,
+            comprasWhatsapp: document.getElementById('comprasWhatsapp').value,
+
+            coordEINome: document.getElementById('coordEINome').value,
+            coordEIEmail: document.getElementById('coordEIEmail').value,
+            coordEIWhatsapp: document.getElementById('coordEIWhatsapp').value,
+            coordF1Nome: document.getElementById('coordF1Nome').value,
+            coordF1Email: document.getElementById('coordF1Email').value,
+            coordF1Whatsapp: document.getElementById('coordF1Whatsapp').value,
+            coordF2Nome: document.getElementById('coordF2Nome').value,
+            coordF2Email: document.getElementById('coordF2Email').value,
+            coordF2Whatsapp: document.getElementById('coordF2Whatsapp').value,
+
+            contratouEI: document.getElementById('checkEI').checked ? "Sim" : "Não",
+            contratouF1: document.getElementById('checkF1').checked ? "Sim" : "Não",
+            contratouF2: document.getElementById('checkF2').checked ? "Sim" : "Não",
+
+            // Recolha EI
+            ei_inf1_kit: document.getElementById('ei_inf1_kit') ? document.getElementById('ei_inf1_kit').value : "",
+            ei_inf1_arteMusica: document.getElementById('ei_inf1_arteMusica') ? document.getElementById('ei_inf1_arteMusica').value : "",
+            ei_inf1_titulos: getCheckedValues('.cb-titulo-ei1'),
+            ei_inf1_qtdAlunos: document.getElementById('ei_inf1_qtdAlunos') ? document.getElementById('ei_inf1_qtdAlunos').value : "",
+            ei_inf1_qtdProfessor: document.getElementById('ei_inf1_qtdProfessor') ? document.getElementById('ei_inf1_qtdProfessor').value : "",
+
+            ei_inf2_kit: document.getElementById('ei_inf2_kit') ? document.getElementById('ei_inf2_kit').value : "",
+            ei_inf2_arteMusica: document.getElementById('ei_inf2_arteMusica') ? document.getElementById('ei_inf2_arteMusica').value : "",
+            ei_inf2_titulos: getCheckedValues('.cb-titulo-ei2'),
+            ei_inf2_qtdAlunos: document.getElementById('ei_inf2_qtdAlunos') ? document.getElementById('ei_inf2_qtdAlunos').value : "",
+            ei_inf2_qtdProfessor: document.getElementById('ei_inf2_qtdProfessor') ? document.getElementById('ei_inf2_qtdProfessor').value : "",
+
+            ei_inf3_kit: document.getElementById('ei_inf3_kit') ? document.getElementById('ei_inf3_kit').value : "",
+            ei_inf3_arteMusica: document.getElementById('ei_inf3_arteMusica') ? document.getElementById('ei_inf3_arteMusica').value : "",
+            ei_inf3_titulos: getCheckedValues('.cb-titulo-ei3'),
+            ei_inf3_palavra: document.getElementById('ei_inf3_palavra') ? document.getElementById('ei_inf3_palavra').value : "",
+            ei_inf3_qtdAlunos: document.getElementById('ei_inf3_qtdAlunos') ? document.getElementById('ei_inf3_qtdAlunos').value : "",
+            ei_inf3_qtdProfessor: document.getElementById('ei_inf3_qtdProfessor') ? document.getElementById('ei_inf3_qtdProfessor').value : "",
+
+            ei_inf4_kit: document.getElementById('ei_inf4_kit') ? document.getElementById('ei_inf4_kit').value : "",
+            ei_inf4_arteMusica: document.getElementById('ei_inf4_arteMusica') ? document.getElementById('ei_inf4_arteMusica').value : "",
+            ei_inf4_titulos: getCheckedValues('.cb-titulo-ei4'),
+            ei_inf4_palavra: document.getElementById('ei_inf4_palavra') ? document.getElementById('ei_inf4_palavra').value : "",
+            ei_inf4_qtdAlunos: document.getElementById('ei_inf4_qtdAlunos') ? document.getElementById('ei_inf4_qtdAlunos').value : "",
+            ei_inf4_qtdProfessor: document.getElementById('ei_inf4_qtdProfessor') ? document.getElementById('ei_inf4_qtdProfessor').value : "",
+
+            ei_inf5_kit: document.getElementById('ei_inf5_kit') ? document.getElementById('ei_inf5_kit').value : "",
+            ei_inf5_arteMusica: document.getElementById('ei_inf5_arteMusica') ? document.getElementById('ei_inf5_arteMusica').value : "",
+            ei_inf5_titulos: getCheckedValues('.cb-titulo-ei5'),
+            ei_inf5_palavra: document.getElementById('ei_inf5_palavra') ? document.getElementById('ei_inf5_palavra').value : "",
+            ei_inf5_qtdAlunos: document.getElementById('ei_inf5_qtdAlunos') ? document.getElementById('ei_inf5_qtdAlunos').value : "",
+            ei_inf5_qtdProfessor: document.getElementById('ei_inf5_qtdProfessor') ? document.getElementById('ei_inf5_qtdProfessor').value : "",
+
+            // Recolha F1
+            f1_1ano_kit: document.getElementById('f1_1ano_kit') ? document.getElementById('f1_1ano_kit').value : "",
+            f1_1ano_opc: getCheckedValues('.cb-opc-f1-1'),
+            f1_1ano_qtdAlunos: document.getElementById('f1_1ano_qtdAlunos') ? document.getElementById('f1_1ano_qtdAlunos').value : "",
+            f1_1ano_qtdProfessor: document.getElementById('f1_1ano_qtdProfessor') ? document.getElementById('f1_1ano_qtdProfessor').value : "",
+
+            f1_2ano_kit: document.getElementById('f1_2ano_kit') ? document.getElementById('f1_2ano_kit').value : "",
+            f1_2ano_opc: getCheckedValues('.cb-opc-f1-2'),
+            f1_2ano_qtdAlunos: document.getElementById('f1_2ano_qtdAlunos') ? document.getElementById('f1_2ano_qtdAlunos').value : "",
+            f1_2ano_qtdProfessor: document.getElementById('f1_2ano_qtdProfessor') ? document.getElementById('f1_2ano_qtdProfessor').value : "",
+
+            f1_3ano_kit: document.getElementById('f1_3ano_kit') ? document.getElementById('f1_3ano_kit').value : "",
+            f1_3ano_opc: getCheckedValues('.cb-opc-f1-3'),
+            f1_3ano_qtdAlunos: document.getElementById('f1_3ano_qtdAlunos') ? document.getElementById('f1_3ano_qtdAlunos').value : "",
+            f1_3ano_qtdProfessor: document.getElementById('f1_3ano_qtdProfessor') ? document.getElementById('f1_3ano_qtdProfessor').value : "",
+
+            f1_4ano_kit: document.getElementById('f1_4ano_kit') ? document.getElementById('f1_4ano_kit').value : "",
+            f1_4ano_opc: getCheckedValues('.cb-opc-f1-4'),
+            f1_4ano_qtdAlunos: document.getElementById('f1_4ano_qtdAlunos') ? document.getElementById('f1_4ano_qtdAlunos').value : "",
+            f1_4ano_qtdProfessor: document.getElementById('f1_4ano_qtdProfessor') ? document.getElementById('f1_4ano_qtdProfessor').value : "",
+
+            f1_5ano_kit: document.getElementById('f1_5ano_kit') ? document.getElementById('f1_5ano_kit').value : "",
+            f1_5ano_opc: getCheckedValues('.cb-opc-f1-5'),
+            f1_5ano_qtdAlunos: document.getElementById('f1_5ano_qtdAlunos') ? document.getElementById('f1_5ano_qtdAlunos').value : "",
+            f1_5ano_qtdProfessor: document.getElementById('f1_5ano_qtdProfessor') ? document.getElementById('f1_5ano_qtdProfessor').value : "",
+
+            // Recolha F2
+            f2_6ano_kit: document.getElementById('f2_6ano_kit') ? document.getElementById('f2_6ano_kit').value : "",
+            f2_6ano_opc: getCheckedValues('.cb-opc-f2-6'),
+            f2_6ano_qtdAlunos: document.getElementById('f2_6ano_qtdAlunos') ? document.getElementById('f2_6ano_qtdAlunos').value : "",
+            f2_6ano_qtdProfessor: document.getElementById('f2_6ano_qtdProfessor') ? document.getElementById('f2_6ano_qtdProfessor').value : "",
+
+            f2_7ano_kit: document.getElementById('f2_7ano_kit') ? document.getElementById('f2_7ano_kit').value : "",
+            f2_7ano_opc: getCheckedValues('.cb-opc-f2-7'),
+            f2_7ano_qtdAlunos: document.getElementById('f2_7ano_qtdAlunos') ? document.getElementById('f2_7ano_qtdAlunos').value : "",
+            f2_7ano_qtdProfessor: document.getElementById('f2_7ano_qtdProfessor') ? document.getElementById('f2_7ano_qtdProfessor').value : "",
+
+            f2_8ano_kit: document.getElementById('f2_8ano_kit') ? document.getElementById('f2_8ano_kit').value : "",
+            f2_8ano_opc: getCheckedValues('.cb-opc-f2-8'),
+            f2_8ano_qtdAlunos: document.getElementById('f2_8ano_qtdAlunos') ? document.getElementById('f2_8ano_qtdAlunos').value : "",
+            f2_8ano_qtdProfessor: document.getElementById('f2_8ano_qtdProfessor') ? document.getElementById('f2_8ano_qtdProfessor').value : "",
+
+            f2_9ano_kit: document.getElementById('f2_9ano_kit') ? document.getElementById('f2_9ano_kit').value : "",
+            f2_9ano_opc: getCheckedValues('.cb-opc-f2-9'),
+            f2_9ano_qtdAlunos: document.getElementById('f2_9ano_qtdAlunos') ? document.getElementById('f2_9ano_qtdAlunos').value : "",
+            f2_9ano_qtdProfessor: document.getElementById('f2_9ano_qtdProfessor') ? document.getElementById('f2_9ano_qtdProfessor').value : "",
+
+            aceite: document.getElementById('aceite').checked ? "Sim" : "Não"
+        };
+
+        // Usa 'text/plain' para evitar problemas de bloqueio (CORS) ao comunicar do GitHub pro Google
+        fetch(URL_GAS, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(dados)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.status === "success") {
+                alert("Dados enviados com sucesso! A equipa comercial gerará o aditivo e enviará para o teu email.");
+                document.getElementById('kitsForm').reset();
+                window.scrollTo(0,0);
+            } else {
+                alert("Ocorreu um erro no servidor: " + data.message);
+            }
+        })
+        .catch(error => {
+            alert("Erro de comunicação com o servidor.");
+            console.error('Error:', error);
+        })
+        .finally(() => {
+            document.getElementById('btnSalvar').style.display = 'block';
+            document.getElementById('loadingMsg').style.display = 'none';
+        });
+    });
+</script>
+
+</body>
+</html>
